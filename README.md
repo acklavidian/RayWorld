@@ -21,6 +21,20 @@ Verify the install worked:
 deno --version
 ```
 
+### Cloning the repo
+
+This project uses a git submodule for the raylib bindings. Clone it with submodules in one step:
+
+```bash
+git clone --recurse-submodules https://github.com/JJLDonley/DenoRaylib550
+```
+
+If you already cloned without `--recurse-submodules`, initialise the submodule afterwards:
+
+```bash
+git submodule update --init
+```
+
 ### Scene Setup
 
 The game loads its world from `assets/scene.glb`. You need to export a Blender scene there before running.
