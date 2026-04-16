@@ -10,6 +10,10 @@ import { GAME_PORT } from "./src/net/protocol.ts";
 import { RemotePlayer, updateAndDrawRemotePlayers, drawNametags } from "./src/remote_player.ts";
 import { drawMainMenu } from "./src/ui/menu.ts";
 import { createBrowserState, drawBrowser, BrowserState } from "./src/ui/browser.ts";
+import {
+  createPauseSettings, createPauseMenuState, drawPauseMenu,
+  PauseSettings, PauseMenuState,
+} from "./src/ui/pause_menu.ts";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -31,6 +35,7 @@ type AppState =
 
 RL.InitWindow(1280, 720, "3D Scene");
 RL.SetTargetFPS(60);
+RL.SetExitKey(RL.KeyboardKey.NULL); // disable default ESC-to-quit; we handle ESC ourselves
 
 // ─── Load & parse scene ───────────────────────────────────────────────────────
 
@@ -118,13 +123,19 @@ let browserState: BrowserState | null = null;
 let connectingPromise: Promise<boolean> | null = null;
 let statusMsg = "";
 
+const settings: PauseSettings      = createPauseSettings();
+let isPaused  = false;
+let pauseMenu: PauseMenuState | null = null;
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function enterPlaying(): void {
-  player   = createPlayerState();
-  camera   = makeCamera();
+  player    = createPlayerState();
+  camera    = makeCamera();
+  isPaused  = false;
+  pauseMenu = null;
   remotePlayers.clear();
-  appState = "PLAYING";
+  appState  = "PLAYING";
   RL.DisableCursor();
 }
 
@@ -150,7 +161,9 @@ while (!RL.WindowShouldClose()) {
     const choice = drawMainMenu();
     RL.EndDrawing();
 
-    if (choice?.action === "host") {
+    if (choice?.action === "exit") {
+      break;
+    } else if (choice?.action === "host") {
       // Start server + connect as localhost client
       server = new GameServer(GAME_PORT);
       server.start();
@@ -209,16 +222,25 @@ while (!RL.WindowShouldClose()) {
 
   // ── State: PLAYING ──────────────────────────────────────────────────────────
   if (appState === "PLAYING") {
-    // ESC → back to menu
+    // ESC → toggle pause menu
     if (RL.IsKeyPressed(RL.KeyboardKey.ESCAPE)) {
-      RL.EnableCursor();
-      stopNetworking();
-      appState = "MAIN_MENU";
-      continue;
+      isPaused = !isPaused;
+      if (isPaused) {
+        RL.EnableCursor();
+        pauseMenu = createPauseMenuState(settings);
+      } else {
+        RL.DisableCursor();
+        pauseMenu = null;
+      }
     }
 
-    // Player update
-    updatePlayer(player, camera, navTris, dt);
+    // Player update (skip while paused)
+    if (!isPaused) {
+      updatePlayer(player, camera, navTris, dt, settings.sensitivity, settings.invertY);
+    }
+
+    // Keep camera FOV in sync with settings
+    camera.fovy = settings.fov;
 
     // Network tick
     client?.tick();
@@ -261,6 +283,22 @@ while (!RL.WindowShouldClose()) {
 
     // HUD
     _drawHUD(player.isGrounded, client?.localId ?? 0);
+
+    // Pause menu overlay
+    if (isPaused && pauseMenu) {
+      const result = drawPauseMenu(pauseMenu);
+      if (result?.action === "resume") {
+        isPaused  = false;
+        pauseMenu = null;
+        RL.DisableCursor();
+      } else if (result?.action === "exit_to_menu") {
+        isPaused  = false;
+        pauseMenu = null;
+        RL.EnableCursor();
+        stopNetworking();
+        appState = "MAIN_MENU";
+      }
+    }
 
     RL.EndDrawing();
   }

@@ -75,13 +75,13 @@ export function TextInput(state: TextInputState, r: Rect, placeholder = ""): boo
   if (state.focused) {
     // Character input
     let ch: string;
-    while ((ch = RL.GetCharPressed()) !== "") {
+    while ((ch = RL.GetCharPressed()) !== "\0") {
       state.text   = state.text.slice(0, state.cursor) + ch + state.text.slice(state.cursor);
       state.cursor++;
     }
 
     // Backspace
-    if (RL.IsKeyPressed(RL.KeyboardKey.BACKSPACE) || RL.IsKeyDown(RL.KeyboardKey.BACKSPACE)) {
+    if (RL.IsKeyPressed(RL.KeyboardKey.BACKSPACE)) {
       if (state.cursor > 0) {
         state.text   = state.text.slice(0, state.cursor - 1) + state.text.slice(state.cursor);
         state.cursor--;
@@ -128,6 +128,62 @@ export function TextInput(state: TextInputState, r: Rect, placeholder = ""): boo
   }
 
   return submitted;
+}
+
+// ─── Slider ───────────────────────────────────────────────────────────────────
+
+/**
+ * Immediate-mode horizontal slider.
+ * Returns the updated value. Pass the current value each frame and store the
+ * return value to persist changes.
+ */
+export function Slider(value: number, min: number, max: number, r: Rect): number {
+  const m = RL.GetMousePosition();
+  let newValue = value;
+
+  // Update value while dragging anywhere along the track
+  if (
+    RL.IsMouseButtonDown(RL.MouseButton.LEFT) &&
+    m.x >= r.x - 10 && m.x <= r.x + r.w + 10 &&
+    m.y >= r.y        && m.y <= r.y + r.h
+  ) {
+    const t = Math.max(0, Math.min(1, (m.x - r.x) / r.w));
+    newValue = min + (max - min) * t;
+  }
+
+  const t      = (newValue - min) / (max - min);
+  const trackY = r.y + (r.h / 2) | 0;
+  const kx     = (r.x + r.w * t) | 0;
+
+  RL.DrawRectangle(r.x,  trackY - 2, r.w,              4, C_BORDER);
+  RL.DrawRectangle(r.x,  trackY - 2, (r.w * t) | 0,   4, C_ACTIVE);
+  RL.DrawCircle(kx, trackY, 7, C_ACTIVE);
+  RL.DrawCircleLines(kx, trackY, 7, C_BORDER);
+
+  return newValue;
+}
+
+// ─── Toggle button ────────────────────────────────────────────────────────────
+
+/**
+ * Immediate-mode toggle button. Draws like a Button with an on/off indicator.
+ * Returns the new state (flipped on click).
+ */
+export function Toggle(label: string, on: boolean, r: Rect): boolean {
+  const hover   = mouseInRect(r);
+  const pressed = hover && RL.IsMouseButtonDown(RL.MouseButton.LEFT);
+  const clicked = hover && RL.IsMouseButtonReleased(RL.MouseButton.LEFT);
+
+  const bg = pressed ? C_ACTIVE : on ? new RL.Color(50, 100, 170, 255) : hover ? C_HOVER : C_BG;
+  RL.DrawRectangle(r.x, r.y, r.w, r.h, bg);
+  RL.DrawRectangleLines(r.x, r.y, r.w, r.h, on ? C_ACTIVE : C_BORDER);
+
+  const fontSize = 16;
+  const full     = `${label}: ${on ? "ON" : "OFF"}`;
+  const tw = RL.MeasureText(full, fontSize);
+  RL.DrawText(full, (r.x + (r.w - tw) / 2) | 0, (r.y + (r.h - fontSize) / 2) | 0, fontSize, C_TEXT);
+
+  return clicked ? !on : on;
 }
 
 // ─── Label ────────────────────────────────────────────────────────────────────

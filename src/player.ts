@@ -6,7 +6,7 @@ import { navHeight, NavTri } from "./navmesh.ts";
 
 export const EYE_HEIGHT      = 1.75;  // metres above nav surface
 export const MOVE_SPEED      = 5.0;   // m/s horizontal
-export const LOOK_SENSITIVITY = 0.002; // radians per pixel
+export const LOOK_SENSITIVITY  = 0.002; // radians per pixel (base — multiplied by settings)
 export const JUMP_SPEED      = 6.5;   // m/s initial upward velocity
 export const GRAVITY         = 18.0;  // m/s² downward acceleration
 
@@ -32,12 +32,14 @@ export function createPlayerState(): PlayerState {
  * Modifies `state` and `camera` in place.
  */
 export function updatePlayer(
-  state:   PlayerState,
-  camera:  RL.Camera3D,
-  navTris: NavTri[],
-  dt:      number,
+  state:       PlayerState,
+  camera:      RL.Camera3D,
+  navTris:     NavTri[],
+  dt:          number,
+  sensitivity: number = 1.0,
+  invertY:     boolean = false,
 ): void {
-  _applyLook(state, camera);
+  _applyLook(state, camera, sensitivity, invertY);
   _applyMovement(state, camera, navTris, dt);
   _applyVertical(state, camera, navTris, dt);
   _updateCameraTarget(state, camera);
@@ -45,10 +47,16 @@ export function updatePlayer(
 
 // ─── Private helpers ──────────────────────────────────────────────────────────
 
-function _applyLook(state: PlayerState, _camera: RL.Camera3D): void {
+function _applyLook(
+  state:       PlayerState,
+  _camera:     RL.Camera3D,
+  sensitivity: number,
+  invertY:     boolean,
+): void {
   const { dx, dy } = Input.getMouseDelta();
-  state.yaw   -= dx * LOOK_SENSITIVITY;
-  state.pitch -= dy * LOOK_SENSITIVITY;
+  const sens = LOOK_SENSITIVITY * sensitivity;
+  state.yaw   -= dx * sens;
+  state.pitch -= dy * sens * (invertY ? -1 : 1);
   state.pitch  = Math.max(-Math.PI / 2 + 0.01, Math.min(Math.PI / 2 - 0.01, state.pitch));
 }
 
