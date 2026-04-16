@@ -1,0 +1,247 @@
+import * as RL from "raylib";
+import { getMesh } from "./scene.ts";
+
+// ─── Shader sources ───────────────────────────────────────────────────────────
+
+// Depth pass: uses raylib's built-in `mvp` uniform (set by BeginMode3D with the
+// light camera) so we get the correct orthographic projection for free.
+const DEPTH_VS = `#version 330
+in vec3 vertexPosition;
+uniform mat4 mvp;
+void main() { gl_Position = mvp * vec4(vertexPosition, 1.0); }
+`;
+const DEPTH_FS = `#version 330
+out vec4 finalColor;
+void main() { finalColor = vec4(1.0); }   // colour unused; depth fills FBO automatically
+`;
+
+// Main scene pass: Blinn-Phong + 3×3 PCF shadow mapping.
+// lightVP is computed CPU-side to exactly match raylib's internal depth-pass
+// MVP (including the Y-flip raylib applies when rendering to render textures).
+const SCENE_VS = `#version 330
+in vec3 vertexPosition;
+in vec2 vertexTexCoord;
+in vec3 vertexNormal;
+in vec4 vertexColor;
+uniform mat4 mvp;
+uniform mat4 matModel;
+uniform mat4 matNormal;
+out vec3 fragPosition;
+out vec2 fragTexCoord;
+out vec3 fragNormal;
+void main() {
+    fragPosition = vec3(matModel * vec4(vertexPosition, 1.0));
+    fragTexCoord = vertexTexCoord;
+    fragNormal   = normalize(vec3(matNormal * vec4(vertexNormal, 1.0)));
+    gl_Position  = mvp * vec4(vertexPosition, 1.0);
+}
+`;
+const SCENE_FS = `#version 330
+in vec3 fragPosition;
+in vec2 fragTexCoord;
+in vec3 fragNormal;
+uniform sampler2D texture0;     // albedo
+uniform vec4      colDiffuse;
+uniform vec3      lightDir;     // unit vector from light toward scene
+uniform vec4      lightColor;
+uniform vec4      ambient;
+uniform vec3      viewPos;
+uniform mat4      lightVP;      // matches the depth-pass MVP exactly
+uniform sampler2D shadowMap;
+uniform int       shadowMapResolution;
+out vec4 finalColor;
+void main() {
+    vec4 texelColor = texture(texture0, fragTexCoord);
+    vec3 normal     = normalize(fragNormal);
+    vec3 l          = -lightDir;
+    float NdotL     = max(dot(normal, l), 0.0);
+
+    float specCo = 0.0;
+    if (NdotL > 0.0) {
+        vec3 viewD = normalize(viewPos - fragPosition);
+        specCo = pow(max(dot(viewD, reflect(-l, normal)), 0.0), 16.0);
+    }
+    vec3 lit = lightColor.rgb * NdotL + vec3(specCo);
+    finalColor = texelColor * colDiffuse * vec4(lit, 1.0);
+
+    // Transform fragment to light clip space, then to [0,1] UV range
+    vec4 lsPos = lightVP * vec4(fragPosition, 1.0);
+    lsPos.xyz /= lsPos.w;
+    lsPos.xyz  = (lsPos.xyz + 1.0) * 0.5;
+    float curDepth = lsPos.z;
+    float bias     = max(0.0002 * (1.0 - dot(normal, l)), 0.00002) + 0.00001;
+
+    // 3×3 PCF
+    int  hits   = 0;
+    vec2 texel  = vec2(1.0 / float(shadowMapResolution));
+    for (int x = -1; x <= 1; x++)
+        for (int y = -1; y <= 1; y++)
+            if (curDepth - bias > texture(shadowMap, lsPos.xy + texel * vec2(x, y)).r)
+                hits++;
+
+    finalColor = mix(finalColor, vec4(0.0, 0.0, 0.0, 1.0), float(hits) / 9.0);
+    finalColor += texelColor * (ambient / 10.0) * colDiffuse;
+    finalColor  = pow(max(finalColor, vec4(0.0)), vec4(1.0 / 2.2));
+}
+`;
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+/** All state owned by the shadow map system. */
+export interface ShadowMap {
+  fbo:         RL.RenderTexture;
+  depthShader: RL.Shader;
+  sceneShader: RL.Shader;
+  depthMat:    RL.Material;   // default material + depth shader
+  lightCam:    RL.Camera3D;   // orthographic light camera for depth pass
+  lightVP:     RL.Matrix;     // CPU-side VP used as `lightVP` uniform
+
+  // Cached uniform locations on sceneShader
+  locLightVP:  number;
+  locLightDir: number;
+  locLightCol: number;
+  locAmbient:  number;
+  locViewPos:  number;
+  locShadow:   number;
+  locShadowRes:number;
+}
+
+// ─── Factory ──────────────────────────────────────────────────────────────────
+
+/** Convenience wrappers for SetShaderValue typed data. */
+const f32 = (...vals: number[]) =>
+  new Uint8Array(new Float32Array(vals).buffer) as unknown as Uint8Array<ArrayBuffer>;
+const i32 = (...vals: number[]) =>
+  new Uint8Array(new Int32Array(vals).buffer) as unknown as Uint8Array<ArrayBuffer>;
+
+const v3 = (x: number, y: number, z: number) => new RL.Vector3(x, y, z);
+const v3sub = (a: RL.Vector3, b: RL.Vector3) => v3(a.x - b.x, a.y - b.y, a.z - b.z);
+const v3len = (a: RL.Vector3) => Math.hypot(a.x, a.y, a.z);
+const v3norm = (a: RL.Vector3) => {
+  const l = v3len(a);
+  return l > 0 ? v3(a.x / l, a.y / l, a.z / l) : v3(0, 0, 0);
+};
+
+/**
+ * Creates the shadow map FBO, shaders, and materials.
+ *
+ * @param lightPos    World-space position of the directional light source.
+ * @param lightTarget Point the light looks at (usually scene centre).
+ * @param mapSize     Shadow map resolution in texels (e.g. 2048).
+ * @param orthoSize   Half-extents of the orthographic capture volume in world
+ *                    units (must cover the full scene).
+ */
+export function createShadowMap(
+  lightPos:    RL.Vector3,
+  lightTarget: RL.Vector3,
+  mapSize:     number,
+  orthoSize:   number,
+): ShadowMap {
+  const fbo         = RL.LoadRenderTexture(mapSize, mapSize);
+  const depthShader = RL.LoadShaderFromMemory(DEPTH_VS, DEPTH_FS);
+  const sceneShader = RL.LoadShaderFromMemory(SCENE_VS, SCENE_FS);
+
+  // Depth material: default white mat with depth shader swapped in
+  const depthMat    = RL.LoadMaterialDefault();
+  depthMat.shader   = depthShader;
+
+  // Light camera (orthographic, square; fovy = full height in world units)
+  const lightCam = new RL.Camera3D({
+    position:   lightPos,
+    target:     lightTarget,
+    up:         v3(0, 1, 0),
+    fovy:       orthoSize * 2.0,
+    projection: RL.CameraProjection.ORTHOGRAPHIC,
+  });
+
+  // CPU-side lightVP must match raylib's internal MVP during the depth pass.
+  // raylib applies Scale(1,−1,1) to the projection when rendering to any FBO
+  // (see rlOrtho() in rlgl.h: "invert Y axis for render textures").
+  // near/far match raylib's RL_CULL_DISTANCE_NEAR / _FAR defaults.
+  const NEAR = 0.01, FAR = 1000.0;
+  const lightView  = RL.MatrixLookAt(lightPos, lightTarget, v3(0, 1, 0));
+  const lightOrtho = RL.MatrixOrtho(
+    -orthoSize, orthoSize, -orthoSize, orthoSize, NEAR, FAR,
+  );
+  const yFlip    = RL.MatrixScale(1.0, -1.0, 1.0);
+  const lightProj = RL.MatrixMultiply(lightOrtho, yFlip); // ortho * Scale(1,-1,1)
+  const lightVP   = RL.MatrixMultiply(lightProj, lightView);
+
+  // Cache uniform locations
+  const loc = (name: string) => RL.GetShaderLocation(sceneShader, name);
+  const shadow: ShadowMap = {
+    fbo, depthShader, sceneShader, depthMat, lightCam, lightVP,
+    locLightVP:   loc("lightVP"),
+    locLightDir:  loc("lightDir"),
+    locLightCol:  loc("lightColor"),
+    locAmbient:   loc("ambient"),
+    locViewPos:   loc("viewPos"),
+    locShadow:    loc("shadowMap"),
+    locShadowRes: loc("shadowMapResolution"),
+  };
+
+  // Set static uniforms (light direction, colour, ambient, resolution)
+  const lightDir = v3norm(v3sub(lightTarget, lightPos));
+  RL.SetShaderValue(sceneShader, shadow.locLightDir,
+    f32(lightDir.x, lightDir.y, lightDir.z), RL.ShaderUniformDataType.VEC3);
+  RL.SetShaderValue(sceneShader, shadow.locLightCol,
+    f32(1.0, 0.98, 0.9, 1.0),               RL.ShaderUniformDataType.VEC4);
+  RL.SetShaderValue(sceneShader, shadow.locAmbient,
+    f32(0.3, 0.3, 0.35, 1.0),               RL.ShaderUniformDataType.VEC4);
+  RL.SetShaderValue(sceneShader, shadow.locShadowRes,
+    i32(mapSize),                            RL.ShaderUniformDataType.INT);
+  RL.SetShaderValueMatrix(sceneShader, shadow.locLightVP, lightVP);
+  // Bind depth texture to the shadowMap sampler (re-bound each frame)
+  RL.SetShaderValueTexture(sceneShader, shadow.locShadow, fbo.depth);
+
+  return shadow;
+}
+
+// ─── Per-frame ────────────────────────────────────────────────────────────────
+
+/**
+ * Updates uniforms that change every frame (view position for specular
+ * highlights) and re-binds the shadow depth texture in case another draw call
+ * clobbered its texture unit.
+ */
+export function updatePerFrame(shadow: ShadowMap, camera: RL.Camera3D): void {
+  const p = camera.position;
+  RL.SetShaderValue(
+    shadow.sceneShader, shadow.locViewPos,
+    new Uint8Array(new Float32Array([p.x, p.y, p.z]).buffer) as unknown as Uint8Array<ArrayBuffer>,
+    RL.ShaderUniformDataType.VEC3,
+  );
+  RL.SetShaderValueTexture(shadow.sceneShader, shadow.locShadow, shadow.fbo.depth);
+}
+
+/**
+ * Depth pass: renders `scene` from the light's perspective into the shadow
+ * FBO.  Nav-mesh meshes are skipped (they are invisible geometry).
+ *
+ * Assumes transforms are baked — passes scene.transform as the model matrix.
+ */
+export function renderDepthPass(
+  shadow:    ShadowMap,
+  scene:     RL.Model,
+  navRange:  { start: number; count: number } | null,
+): void {
+  RL.BeginTextureMode(shadow.fbo);
+  RL.ClearBackground(RL.White);
+  RL.BeginMode3D(shadow.lightCam);
+
+  for (let i = 0; i < scene.meshCount; i++) {
+    if (navRange && i >= navRange.start && i < navRange.start + navRange.count) continue;
+    RL.DrawMesh(getMesh(scene, i), shadow.depthMat, scene.transform);
+  }
+
+  RL.EndMode3D();
+  RL.EndTextureMode();
+}
+
+// ─── Cleanup ──────────────────────────────────────────────────────────────────
+
+export function destroyShadowMap(shadow: ShadowMap): void {
+  RL.UnloadShader(shadow.depthShader);
+  RL.UnloadShader(shadow.sceneShader);
+  RL.UnloadRenderTexture(shadow.fbo);
+}
