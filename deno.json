@@ -9,6 +9,7 @@
     "types": ["./raylib/global.d.ts"]
   },
   "imports": {
-    "raylib": "./raylib/raylib.ts"
+    "raylib":        "./raylib/raylib.ts",
+    "jolt-physics":  "npm:jolt-physics"
   }
 }

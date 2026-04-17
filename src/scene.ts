@@ -14,9 +14,10 @@ export interface GltfMesh {
 }
 
 export interface GltfNode {
-  name?: string;
-  mesh?: number; // index into gltf.meshes
+  name?:        string;
+  mesh?:        number; // index into gltf.meshes
   translation?: [number, number, number];
+  extras?:      Record<string, unknown>; // Blender custom properties
 }
 
 export interface GltfJson {
@@ -66,6 +67,15 @@ export function resolveRaylibMeshRange(
     start += gltf.meshes![i].primitives.length;
   }
   return { start, count: gltf.meshes![gltfMeshIndex].primitives.length };
+}
+
+/**
+ * Returns every glTF node whose `extras[key]` equals `value`.
+ * Matches Blender custom properties exported via the glTF exporter
+ * (e.g. a property named "physicsType" set to "dynamic", "static", or "building").
+ */
+export function findNodesByExtra(gltf: GltfJson, key: string, value: unknown): GltfNode[] {
+  return (gltf.nodes ?? []).filter((n) => n.extras?.[key] === value);
 }
 
 // ─── Model / mesh helpers ─────────────────────────────────────────────────────
@@ -121,4 +131,48 @@ export function makeSceneMaterials(
     mats.push(mat);
   }
   return mats;
+}
+
+/**
+ * Copies raw vertex positions and triangle indices out of FFI memory for
+ * a single raylib mesh.  Returns null if the mesh has no vertex data.
+ *
+ * The returned arrays are owned copies safe to keep after the frame.
+ * When the mesh has no index buffer, sequential indices are synthesised.
+ */
+export function extractMeshData(
+  model: RL.Model,
+  meshIndex: number,
+): { verts: Float32Array; indices: Uint16Array; triCount: number } | null {
+  const mesh = getMesh(model, meshIndex);
+  const vPtr = Deno.UnsafePointer.create(mesh.verticesPtr);
+  if (!vPtr) return null;
+
+  const verts = new Float32Array(
+    new Deno.UnsafePointerView(vPtr)
+      .getArrayBuffer(mesh.vertexCount * 12)
+      .slice(0),                           // .slice → owned copy
+  );
+
+  let indices: Uint16Array;
+  if (mesh.indicesPtr !== 0n) {
+    const iPtr = Deno.UnsafePointer.create(mesh.indicesPtr);
+    indices = iPtr
+      ? new Uint16Array(
+          new Deno.UnsafePointerView(iPtr)
+            .getArrayBuffer(mesh.triangleCount * 6)
+            .slice(0),
+        )
+      : _seqIndices(mesh.triangleCount);
+  } else {
+    indices = _seqIndices(mesh.triangleCount);
+  }
+
+  return { verts, indices, triCount: mesh.triangleCount };
+}
+
+function _seqIndices(triCount: number): Uint16Array {
+  const a = new Uint16Array(triCount * 3);
+  for (let i = 0; i < a.length; i++) a[i] = i;
+  return a;
 }
