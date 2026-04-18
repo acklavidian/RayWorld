@@ -4,22 +4,29 @@ import { PhysicsWorld } from "./physics.ts";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-export const EYE_HEIGHT       = 1.75;   // metres above feet (bottom of physics capsule)
-export const MOVE_SPEED       = 5.0;    // m/s horizontal
-export const LOOK_SENSITIVITY = 0.002;  // radians per pixel (base — multiplied by settings)
-export const JUMP_SPEED       = 6.5;    // m/s initial upward velocity
-export const GRAVITY          = 18.0;   // m/s² downward acceleration
+export const EYE_HEIGHT          = 1.75;   // metres above feet (bottom of physics capsule)
+export const CROUCH_EYE_HEIGHT   = 1.1;    // metres above feet when crouching
+export const EYE_LERP_SPEED      = 10.0;   // how fast eye height transitions (per second)
+export const MOVE_SPEED          = 5.0;    // m/s horizontal
+export const SPRINT_SPEED        = 8.5;    // m/s horizontal while sprinting
+export const CROUCH_SPEED        = 2.5;    // m/s horizontal while crouching
+export const LOOK_SENSITIVITY    = 0.002;  // radians per pixel (base — multiplied by settings)
+export const JUMP_SPEED          = 6.5;    // m/s initial upward velocity
+export const GRAVITY             = 18.0;   // m/s² downward acceleration
 
 // ─── State ────────────────────────────────────────────────────────────────────
 
 export interface PlayerState {
-  yaw:        number;  // horizontal look angle (radians)
-  pitch:      number;  // vertical look angle (radians, clamped)
-  isGrounded: boolean;
+  yaw:            number;  // horizontal look angle (radians)
+  pitch:          number;  // vertical look angle (radians, clamped)
+  isGrounded:     boolean;
+  isSprinting:    boolean;
+  isCrouching:    boolean;
+  currentEyeHeight: number;  // smoothly interpolated eye height
 }
 
 export function createPlayerState(): PlayerState {
-  return { yaw: 0, pitch: 0, isGrounded: true };
+  return { yaw: 0, pitch: 0, isGrounded: true, isSprinting: false, isCrouching: false, currentEyeHeight: EYE_HEIGHT };
 }
 
 // ─── Update ───────────────────────────────────────────────────────────────────
@@ -39,7 +46,8 @@ export function updatePlayer(
 ): void {
   _applyLook(state, sensitivity, invertY);
   _applyPhysicsMovement(state, physics, dt);
-  _updateCameraFromPhysics(camera, physics);
+  _updateEyeHeight(state, dt);
+  _updateCameraFromPhysics(state, camera, physics);
   _updateCameraTarget(state, camera);
 }
 
@@ -70,6 +78,14 @@ function _applyPhysicsMovement(
   physics: PhysicsWorld,
   dt:      number,
 ): void {
+  // Sprint / crouch state (crouch takes priority; can't sprint while crouching)
+  state.isCrouching = Input.isDown(Input.Action.Crouch);
+  state.isSprinting = !state.isCrouching && Input.isDown(Input.Action.Sprint);
+
+  const speed = state.isCrouching ? CROUCH_SPEED
+              : state.isSprinting ? SPRINT_SPEED
+              : MOVE_SPEED;
+
   // Horizontal input → world-space velocity vector
   const fwdX =  -Math.sin(state.yaw);
   const fwdZ =  -Math.cos(state.yaw);
@@ -83,8 +99,8 @@ function _applyPhysicsMovement(
   if (Input.isDown(Input.Action.MoveRight))   { mx += rgtX; mz += rgtZ; }
 
   const len = Math.hypot(mx, mz);
-  const vx  = len > 0 ? (mx / len) * MOVE_SPEED : 0;
-  const vz  = len > 0 ? (mz / len) * MOVE_SPEED : 0;
+  const vx  = len > 0 ? (mx / len) * speed : 0;
+  const vz  = len > 0 ? (mz / len) * speed : 0;
 
   // Read Y velocity from the character — post-collision value from last step.
   // This ensures a ceiling hit zeroes the velocity instead of fighting it.
@@ -96,8 +112,8 @@ function _applyPhysicsMovement(
     vy -= GRAVITY * dt;    // integrate gravity while airborne
   }
 
-  // Jump: apply upward impulse once per grounded press
-  if (state.isGrounded && Input.isPressed(Input.Action.Jump)) {
+  // Jump: apply upward impulse once per grounded press (no jumping while crouching)
+  if (state.isGrounded && !state.isCrouching && Input.isPressed(Input.Action.Jump)) {
     vy = JUMP_SPEED;
   }
 
@@ -106,10 +122,16 @@ function _applyPhysicsMovement(
   state.isGrounded = physics.isCharacterGrounded();
 }
 
-function _updateCameraFromPhysics(camera: RL.Camera3D, physics: PhysicsWorld): void {
+function _updateEyeHeight(state: PlayerState, dt: number): void {
+  const targetHeight = state.isCrouching ? CROUCH_EYE_HEIGHT : EYE_HEIGHT;
+  const t = Math.min(1, EYE_LERP_SPEED * dt);
+  state.currentEyeHeight += (targetHeight - state.currentEyeHeight) * t;
+}
+
+function _updateCameraFromPhysics(state: PlayerState, camera: RL.Camera3D, physics: PhysicsWorld): void {
   const pos = physics.getCharacterFeetPos();
   camera.position.x = pos.x;
-  camera.position.y = pos.y + EYE_HEIGHT;
+  camera.position.y = pos.y + state.currentEyeHeight;
   camera.position.z = pos.z;
 }
 

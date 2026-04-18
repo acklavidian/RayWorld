@@ -9,6 +9,8 @@ export enum Action {
   MoveLeft,
   MoveRight,
   Jump,
+  Sprint,
+  Crouch,
 }
 
 // ─── Key bindings ─────────────────────────────────────────────────────────────
@@ -23,6 +25,8 @@ export const keyBindings = new Map<Action, RL.KeyboardKey>([
   [Action.MoveLeft,    RL.KeyboardKey.A],
   [Action.MoveRight,   RL.KeyboardKey.D],
   [Action.Jump,        RL.KeyboardKey.SPACE],
+  [Action.Sprint,      RL.KeyboardKey.LEFT_SHIFT],
+  [Action.Crouch,      RL.KeyboardKey.LEFT_CONTROL],
 ]);
 
 // ─── Query helpers ────────────────────────────────────────────────────────────

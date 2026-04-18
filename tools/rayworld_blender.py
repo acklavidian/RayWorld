@@ -29,7 +29,7 @@ class RayWorldObjectProps(PropertyGroup):
         name="Physics Type",
         items=[
             ("",         "(none)",    "No physics"),
-            ("building", "Building",  "AABB box collider"),
+            ("building", "Building",  "Triangle mesh collider (level geometry)"),
             ("static",   "Static",    "Triangle mesh collider"),
             ("dynamic",  "Dynamic",   "Convex hull rigid body"),
         ],
