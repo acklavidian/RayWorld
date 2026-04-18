@@ -176,3 +176,33 @@ function _seqIndices(triCount: number): Uint16Array {
   for (let i = 0; i < a.length; i++) a[i] = i;
   return a;
 }
+
+// ─── Transform helpers ───────────────────────────────────────────────────────
+
+/** Transforms a single point (x, y, z) by a raylib Matrix (column-major). */
+export function transformPoint(
+  x: number, y: number, z: number, mat: RL.Matrix,
+): [number, number, number] {
+  return [
+    mat.m0 * x + mat.m4 * y + mat.m8  * z + mat.m12,
+    mat.m1 * x + mat.m5 * y + mat.m9  * z + mat.m13,
+    mat.m2 * x + mat.m6 * y + mat.m10 * z + mat.m14,
+  ];
+}
+
+/**
+ * Transforms every (x,y,z) triplet in a vertex buffer by a raylib Matrix.
+ * Returns a new Float32Array — the original is not modified.
+ */
+export function transformVertsByMatrix(
+  verts: Float32Array, mat: RL.Matrix,
+): Float32Array {
+  const out = new Float32Array(verts.length);
+  for (let i = 0; i < verts.length; i += 3) {
+    const x = verts[i], y = verts[i + 1], z = verts[i + 2];
+    out[i]     = mat.m0 * x + mat.m4 * y + mat.m8  * z + mat.m12;
+    out[i + 1] = mat.m1 * x + mat.m5 * y + mat.m9  * z + mat.m13;
+    out[i + 2] = mat.m2 * x + mat.m6 * y + mat.m10 * z + mat.m14;
+  }
+  return out;
+}

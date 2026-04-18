@@ -88,8 +88,8 @@ export class PhysicsWorld {
     objFilter.EnableCollision(OBJ_LAYER_DYNAMIC, OBJ_LAYER_DYNAMIC);
 
     const bpIface = new J.BroadPhaseLayerInterfaceTable(NUM_OBJ_LAYERS, NUM_BP_LAYERS);
-    bpIface.MapObjectToBroadPhaseLayer(OBJ_LAYER_STATIC,  BP_LAYER_STATIC);
-    bpIface.MapObjectToBroadPhaseLayer(OBJ_LAYER_DYNAMIC, BP_LAYER_DYNAMIC);
+    bpIface.MapObjectToBroadPhaseLayer(OBJ_LAYER_STATIC,  BP_LAYER_STATIC as any);
+    bpIface.MapObjectToBroadPhaseLayer(OBJ_LAYER_DYNAMIC, BP_LAYER_DYNAMIC as any);
 
     const objBpFilter = new J.ObjectVsBroadPhaseLayerFilterTable(
       bpIface, NUM_BP_LAYERS, objFilter, NUM_OBJ_LAYERS,
