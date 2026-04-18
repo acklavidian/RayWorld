@@ -62,31 +62,21 @@ export function loadScene(shadow: ShadowMap, physics: PhysicsWorld): SceneState 
   const model = RL.LoadModel(SCENE_FILE);
   const xform = model.transform;
 
-  // Diagnostic: log model.transform to verify it's non-identity
-  console.log(
-    `[scene] model.transform:\n` +
-    `  ${xform.m0.toFixed(4)}  ${xform.m4.toFixed(4)}  ${xform.m8.toFixed(4)}  ${xform.m12.toFixed(4)}\n` +
-    `  ${xform.m1.toFixed(4)}  ${xform.m5.toFixed(4)}  ${xform.m9.toFixed(4)}  ${xform.m13.toFixed(4)}\n` +
-    `  ${xform.m2.toFixed(4)}  ${xform.m6.toFixed(4)}  ${xform.m10.toFixed(4)}  ${xform.m14.toFixed(4)}\n` +
-    `  ${xform.m3.toFixed(4)}  ${xform.m7.toFixed(4)}  ${xform.m11.toFixed(4)}  ${xform.m15.toFixed(4)}`,
-  );
-
-  // Transform spawn point from GLB node space into model space
+  // Transform spawn point by model.transform (handles coordinate system conversions)
   [spawnX, spawnY, spawnZ] = transformPoint(spawnX, spawnY, spawnZ, xform);
-  console.log(`Spawn (transformed): (${spawnX.toFixed(2)}, ${spawnY.toFixed(2)}, ${spawnZ.toFixed(2)})`);
 
-  // Physics — building AABB box colliders (nodes ending in _building)
-  let buildingBoxCount = 0;
+  // Physics — building mesh colliders
+  let buildingMeshCount = 0;
   for (const node of findNodesByExtra(gltf, "physicsType", "building")) {
     if (!node.name) continue;
     const range = resolveRaylibMeshRange(gltf, node.name);
     if (!range) continue;
     for (let i = range.start; i < range.start + range.count; i++) {
       const d = extractMeshData(model, i);
-      if (d) { d.verts = transformVertsByMatrix(d.verts, xform); physics.addStaticBox(d.verts); buildingBoxCount++; }
+      if (d) { d.verts = transformVertsByMatrix(d.verts, xform); physics.addStatic(d.verts, d.indices, d.triCount); buildingMeshCount++; }
     }
   }
-  if (buildingBoxCount > 0) console.log(`[physics] building: ${buildingBoxCount} AABB box colliders`);
+  if (buildingMeshCount > 0) console.log(`[physics] building: ${buildingMeshCount} mesh colliders`);
   else console.warn('[physics] no building nodes found — set custom property physicsType="building" in Blender');
 
   // Physics — additional static colliders (physicsType = "static")
