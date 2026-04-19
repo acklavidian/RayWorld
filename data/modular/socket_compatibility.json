@@ -1,0 +1,10 @@
+{
+  "open": ["open", "doorway"],
+  "doorway": ["doorway", "open"],
+  "wall": ["wall"],
+  "solid": ["solid"],
+  "support": ["support"],
+  "empty": ["empty"],
+  "railing": ["railing", "open"],
+  "none": []
+}

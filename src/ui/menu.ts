@@ -6,6 +6,7 @@ import { Button, Panel, Label, Rect } from "./widgets.ts";
 export type MainMenuResult =
   | { action: "host" }
   | { action: "browse" }
+  | { action: "test_map" }
   | { action: "exit" }
   | null; // still on the menu
 
@@ -41,7 +42,7 @@ export function drawMainMenu(): MainMenuResult {
   const by = sh / 2 | 0;
 
   const panelPad = 24;
-  const panelH   = (btnH + gap) * 3 + panelPad * 2 - gap;
+  const panelH   = (btnH + gap) * 4 + panelPad * 2 - gap;
   const panel: Rect = { x: bx - panelPad, y: by - panelPad, w: btnW + panelPad * 2, h: panelH };
   Panel(panel);
 
@@ -53,7 +54,11 @@ export function drawMainMenu(): MainMenuResult {
     return { action: "browse" };
   }
 
-  if (Button("Exit Game", { x: bx, y: by + (btnH + gap) * 2, w: btnW, h: btnH })) {
+  if (Button("Test Map", { x: bx, y: by + (btnH + gap) * 2, w: btnW, h: btnH })) {
+    return { action: "test_map" };
+  }
+
+  if (Button("Exit Game", { x: bx, y: by + (btnH + gap) * 3, w: btnW, h: btnH })) {
     return { action: "exit" };
   }
 

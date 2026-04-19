@@ -627,14 +627,22 @@ export class PhysicsWorld {
 
   step(dt: number): void {
     this._jolt.Step(Math.min(dt, 0.1), 1);
+
+    // Kill plane: deactivate dynamic bodies that fall below Y=-50
+    for (const [name, entry] of this._dynamics) {
+      const pos = this._bi.GetPosition(entry.id);
+      if (pos.GetY() < -50) {
+        this._bi.DeactivateBody(entry.id);
+      }
+    }
   }
 
   // ── Query ───────────────────────────────────────────────────────────────────
 
   /**
    * Returns the raylib world-space Matrix for a named dynamic body.
-   * transform = T(physicsPos) × R(physicsRot) × T(-initialCentroid)
-   * At rest this is identity, so the mesh renders at its original Blender position.
+   * Computes: v' = R * (v - centroid) + physPos
+   * Built manually to match the proven wireframe rendering math.
    */
   getDynamicTransform(name: string): RL.Matrix | null {
     const entry = this._dynamics.get(name);
@@ -643,14 +651,32 @@ export class PhysicsWorld {
     const pos = this._bi.GetPosition(entry.id);
     const rot = this._bi.GetRotation(entry.id);
 
-    const q = new RL.Vector4({
-      x: rot.GetX(), y: rot.GetY(), z: rot.GetZ(), w: rot.GetW(),
-    });
-    const toWorld   = RL.MatrixTranslate(pos.GetX(), pos.GetY(), pos.GetZ());
-    const rotation  = RL.QuaternionToMatrix(q);
-    const fromLocal = RL.MatrixTranslate(-entry.cx, -entry.cy, -entry.cz);
+    const px = pos.GetX(), py = pos.GetY(), pz = pos.GetZ();
+    const qx = rot.GetX(), qy = rot.GetY(), qz = rot.GetZ(), qw = rot.GetW();
+    const cx = entry.cx, cy = entry.cy, cz = entry.cz;
 
-    return RL.MatrixMultiply(toWorld, RL.MatrixMultiply(rotation, fromLocal));
+    // Rotation matrix from quaternion (standard: v' = R * v)
+    const xx = qx * qx, yy = qy * qy, zz = qz * qz;
+    const xy = qx * qy, xz = qx * qz, yz = qy * qz;
+    const wx = qw * qx, wy = qw * qy, wz = qw * qz;
+
+    const r00 = 1 - 2 * (yy + zz), r01 = 2 * (xy - wz),     r02 = 2 * (xz + wy);
+    const r10 = 2 * (xy + wz),     r11 = 1 - 2 * (xx + zz),  r12 = 2 * (yz - wx);
+    const r20 = 2 * (xz - wy),     r21 = 2 * (yz + wx),      r22 = 1 - 2 * (xx + yy);
+
+    // Translation = pos - R * centroid
+    const tx = px - (r00 * cx + r01 * cy + r02 * cz);
+    const ty = py - (r10 * cx + r11 * cy + r12 * cz);
+    const tz = pz - (r20 * cx + r21 * cy + r22 * cz);
+
+    // Build column-major raylib Matrix directly
+    // Row layout: row0=(m0,m1,m2,m3), row1=(m4,m5,m6,m7), etc.
+    return new RL.Matrix({
+      m0: r00,  m1: r01,  m2: r02,  m3: tx,
+      m4: r10,  m5: r11,  m6: r12,  m7: ty,
+      m8: r20,  m9: r21,  m10: r22, m11: tz,
+      m12: 0,   m13: 0,   m14: 0,   m15: 1,
+    });
   }
 
   dynamicNames(): IterableIterator<string> {

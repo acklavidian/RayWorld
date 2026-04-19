@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "name": "Two Rooms",
+  "grid": {
+    "cellSize": [4, 4, 4],
+    "dimensions": [4, 2, 2]
+  },
+  "spawn": [1, 0.1, 1],
+  "placements": [
+
+    {"assetId": "sm_floor_v1", "position": [0, 0, 0], "rotation": 0, "notes": "Room A floor"},
+    {"assetId": "sm_floor_v1", "position": [1, 0, 0], "rotation": 0},
+    {"assetId": "sm_floor_v1", "position": [0, 0, 1], "rotation": 0},
+    {"assetId": "sm_floor_v1", "position": [1, 0, 1], "rotation": 0},
+
+    {"assetId": "sm_floor_v2", "position": [2, 0, 0], "rotation": 0, "notes": "Room B floor"},
+    {"assetId": "sm_floor_v2", "position": [3, 0, 0], "rotation": 0},
+    {"assetId": "sm_floor_v2", "position": [2, 0, 1], "rotation": 0},
+    {"assetId": "sm_floor_v2", "position": [3, 0, 1], "rotation": 0},
+
+    {"assetId": "sm_floor_v1", "position": [0, 1, 0], "rotation": 0, "notes": "Room A ceiling"},
+    {"assetId": "sm_floor_v1", "position": [1, 1, 0], "rotation": 0},
+    {"assetId": "sm_floor_v1", "position": [0, 1, 1], "rotation": 0},
+    {"assetId": "sm_floor_v1", "position": [1, 1, 1], "rotation": 0},
+
+    {"assetId": "sm_floor_v2", "position": [2, 1, 0], "rotation": 0, "notes": "Room B ceiling"},
+    {"assetId": "sm_floor_v2", "position": [3, 1, 0], "rotation": 0},
+    {"assetId": "sm_floor_v2", "position": [2, 1, 1], "rotation": 0},
+    {"assetId": "sm_floor_v2", "position": [3, 1, 1], "rotation": 0},
+
+    {"assetId": "sm_wall_v0", "position": [0, 0, -0.5], "rotation": 90, "notes": "south perimeter"},
+    {"assetId": "sm_wall_v0", "position": [1, 0, -0.5], "rotation": 90},
+    {"assetId": "sm_wall_v0", "position": [2, 0, -0.5], "rotation": 90},
+    {"assetId": "sm_wall_v0", "position": [3, 0, -0.5], "rotation": 90},
+
+    {"assetId": "sm_wall_v0", "position": [0, 0, 1.5], "rotation": 90, "notes": "north perimeter"},
+    {"assetId": "sm_wall_v0", "position": [1, 0, 1.5], "rotation": 90},
+    {"assetId": "sm_wall_v0", "position": [2, 0, 1.5], "rotation": 90},
+    {"assetId": "sm_wall_v0", "position": [3, 0, 1.5], "rotation": 90},
+
+    {"assetId": "sm_wall_v0", "position": [-0.5, 0, 0], "rotation": 0, "notes": "west perimeter"},
+    {"assetId": "sm_wall_v0", "position": [-0.5, 0, 1], "rotation": 0},
+
+    {"assetId": "sm_wall_v0", "position": [3.5, 0, 0], "rotation": 0, "notes": "east perimeter"},
+    {"assetId": "sm_wall_v0", "position": [3.5, 0, 1], "rotation": 0},
+
+    {"assetId": "sm_wall_v0", "position": [1.5, 0, 0], "rotation": 0, "notes": "divider wall"},
+    {"assetId": "sm_doorframe_single", "position": [1.5, 0, 1], "rotation": 0, "notes": "doorway"}
+  ]
+}

@@ -4,7 +4,14 @@
     "W_Build": "deno compile --target x86_64-pc-windows-msvc --no-terminal --output mygame.exe -Ar --allow-net --unstable-net main.ts",
     "L_Build": "deno compile --target x86_64-unknown-linux-gnu --output mygame.exe -Ar --allow-net --unstable-net main.ts",
     "M_Build": "deno compile --target x86_64-apple-darwin --output mygame.exe -Ar --allow-net --unstable-net main.ts",
-    "validate": "deno run --allow-read src/tools/validate.ts"
+    "validate": "deno run --allow-read src/tools/validate.ts",
+    "asset:scan": "deno run --allow-read --allow-write tools/modular-assets/scan.ts",
+    "asset:classify": "deno run --allow-read --allow-write tools/modular-assets/classify.ts",
+    "asset:library": "deno run --allow-read --allow-write tools/modular-assets/generate_library.ts",
+    "asset:validate": "deno run --allow-read tools/modular-assets/validate_assets.ts",
+    "map:validate": "deno run --allow-read tools/modular-assets/validate_map.ts",
+    "map:example": "deno run --allow-read --allow-write tools/modular-assets/generate_example.ts",
+    "asset:convert": "blender --background --python tools/modular-assets/convert_to_glb.py"
   },
   "compilerOptions": {
     "types": ["./raylib/global.d.ts"]

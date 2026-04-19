@@ -1,0 +1,1470 @@
+{
+  "version": "1.0",
+  "sourcePack": "SciFi_A_005",
+  "generatedAt": "2026-04-19T13:05:35.269Z",
+  "assets": [
+    {
+      "sourceFile": "assets/scifi_assets/fbx/Pack_SciFi_A_005_SM_Floor_V1.fbx",
+      "assetId": "pack_sm_floor_v1",
+      "displayName": "Floor V1",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "confidence": 0.75,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": true,
+      "warnings": [
+        "Low classification confidence: 0.75"
+      ]
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/Pack_SciFi_A_005_SM_Floor_V2.fbx",
+      "assetId": "pack_sm_floor_v2",
+      "displayName": "Floor V2",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "confidence": 0.75,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": true,
+      "warnings": [
+        "Low classification confidence: 0.75"
+      ]
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Angled_Railing_Cover.fbx",
+      "assetId": "sm_angled_railing_cover",
+      "displayName": "Angled Railing Cover",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "confidence": 0.75,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": true,
+      "warnings": [
+        "Low classification confidence: 0.75"
+      ]
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Corner_Cover_Post.fbx",
+      "assetId": "sm_corner_cover_post",
+      "displayName": "Corner Cover Post",
+      "role": "corner",
+      "tags": [
+        "sci_fi",
+        "structural"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Cross_Beam_Brace.fbx",
+      "assetId": "sm_cross_beam_brace",
+      "displayName": "Cross Beam Brace",
+      "role": "support",
+      "tags": [
+        "sci_fi",
+        "structural"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Double_V1L.fbx",
+      "assetId": "sm_door_double_v1l",
+      "displayName": "Door Double V1L",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Double_V1R.fbx",
+      "assetId": "sm_door_double_v1r",
+      "displayName": "Door Double V1R",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Double_V2L.fbx",
+      "assetId": "sm_door_double_v2l",
+      "displayName": "Door Double V2L",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Double_V2R.fbx",
+      "assetId": "sm_door_double_v2r",
+      "displayName": "Door Double V2R",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Double_V3L.fbx",
+      "assetId": "sm_door_double_v3l",
+      "displayName": "Door Double V3L",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Double_V3R.fbx",
+      "assetId": "sm_door_double_v3r",
+      "displayName": "Door Double V3R",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Single_V1.fbx",
+      "assetId": "sm_door_single_v1",
+      "displayName": "Door Single V1",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Single_V2.fbx",
+      "assetId": "sm_door_single_v2",
+      "displayName": "Door Single V2",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door_Single_V3.fbx",
+      "assetId": "sm_door_single_v3",
+      "displayName": "Door Single V3",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Door.fbx",
+      "assetId": "sm_door",
+      "displayName": "Door",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_DoorFrame_Double.fbx",
+      "assetId": "sm_doorframe_double",
+      "displayName": "DoorFrame Double",
+      "role": "door_frame",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "doorway",
+        "double"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_DoorFrame_Single.fbx",
+      "assetId": "sm_doorframe_single",
+      "displayName": "DoorFrame Single",
+      "role": "door_frame",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "doorway"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_Glass.fbx",
+      "assetId": "sm_floor_glass",
+      "displayName": "Floor Glass",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "transparent"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_Grate.fbx",
+      "assetId": "sm_floor_grate",
+      "displayName": "Floor Grate",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "ventilation"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_Line_Corner.fbx",
+      "assetId": "sm_floor_line_corner",
+      "displayName": "Floor Line Corner",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_Line_Cross.fbx",
+      "assetId": "sm_floor_line_cross",
+      "displayName": "Floor Line Cross",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_Line_Straight.fbx",
+      "assetId": "sm_floor_line_straight",
+      "displayName": "Floor Line Straight",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_Line_T.fbx",
+      "assetId": "sm_floor_line_t",
+      "displayName": "Floor Line T",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_V1_Large.fbx",
+      "assetId": "sm_floor_v1_large",
+      "displayName": "Floor V1 Large",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "large"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_V1.fbx",
+      "assetId": "sm_floor_v1",
+      "displayName": "Floor V1",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_V2_Large.fbx",
+      "assetId": "sm_floor_v2_large",
+      "displayName": "Floor V2 Large",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "large"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Floor_V2.fbx",
+      "assetId": "sm_floor_v2",
+      "displayName": "Floor V2",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Pente_A.fbx",
+      "assetId": "sm_pente_a",
+      "displayName": "Pente A",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Pente_B.fbx",
+      "assetId": "sm_pente_b",
+      "displayName": "Pente B",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Pente_C.fbx",
+      "assetId": "sm_pente_c",
+      "displayName": "Pente C",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Pente_D.fbx",
+      "assetId": "sm_pente_d",
+      "displayName": "Pente D",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Railing_Divider_Post.fbx",
+      "assetId": "sm_railing_divider_post",
+      "displayName": "Railing Divider Post",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Rambard_2M.fbx",
+      "assetId": "sm_rambard_2m",
+      "displayName": "Rambard 2M",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Rambard.fbx",
+      "assetId": "sm_rambard",
+      "displayName": "Rambard",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_StairModule_Long.fbx",
+      "assetId": "sm_stairmodule_long",
+      "displayName": "StairModule Long",
+      "role": "stairs",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_StairModule_Short.fbx",
+      "assetId": "sm_stairmodule_short",
+      "displayName": "StairModule Short",
+      "role": "stairs",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Support_Beam_Large.fbx",
+      "assetId": "sm_support_beam_large",
+      "displayName": "Support Beam Large",
+      "role": "support",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "large"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Support_Beam.fbx",
+      "assetId": "sm_support_beam",
+      "displayName": "Support Beam",
+      "role": "support",
+      "tags": [
+        "sci_fi",
+        "structural"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Wall_V0.fbx",
+      "assetId": "sm_wall_v0",
+      "displayName": "Wall V0",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Wall_V1.fbx",
+      "assetId": "sm_wall_v1",
+      "displayName": "Wall V1",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Wall_V2.fbx",
+      "assetId": "sm_wall_v2",
+      "displayName": "Wall V2",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Wall_V3.fbx",
+      "assetId": "sm_wall_v3",
+      "displayName": "Wall V3",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Wall_V4.fbx",
+      "assetId": "sm_wall_v4",
+      "displayName": "Wall V4",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_Wall_V5.fbx",
+      "assetId": "sm_wall_v5",
+      "displayName": "Wall V5",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_CablePanel_Wide.fbx",
+      "assetId": "sm_walldecor_cablepanel_wide",
+      "displayName": "WallDecor CablePanel Wide",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_EnergyStorage_Panel.fbx",
+      "assetId": "sm_walldecor_energystorage_panel",
+      "displayName": "WallDecor EnergyStorage Panel",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_GratePanel_Large.fbx",
+      "assetId": "sm_walldecor_gratepanel_large",
+      "displayName": "WallDecor GratePanel Large",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large",
+        "ventilation"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_IndustrialGrate.fbx",
+      "assetId": "sm_walldecor_industrialgrate",
+      "displayName": "WallDecor IndustrialGrate",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "ventilation"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_StatusPanel.fbx",
+      "assetId": "sm_walldecor_statuspanel",
+      "displayName": "WallDecor StatusPanel",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_TechPanel_Wide.fbx",
+      "assetId": "sm_walldecor_techpanel_wide",
+      "displayName": "WallDecor TechPanel Wide",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_Utility_Tall.fbx",
+      "assetId": "sm_walldecor_utility_tall",
+      "displayName": "WallDecor Utility Tall",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_Utility_Vertical.fbx",
+      "assetId": "sm_walldecor_utility_vertical",
+      "displayName": "WallDecor Utility Vertical",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_Vent_Wide.fbx",
+      "assetId": "sm_walldecor_vent_wide",
+      "displayName": "WallDecor Vent Wide",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large",
+        "ventilation"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_VentPanel.fbx",
+      "assetId": "sm_walldecor_ventpanel",
+      "displayName": "WallDecor VentPanel",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "ventilation"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_WallConsole_Large.fbx",
+      "assetId": "sm_walldecor_wallconsole_large",
+      "displayName": "WallDecor WallConsole Large",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallDecor_WallConsole_Small.fbx",
+      "assetId": "sm_walldecor_wallconsole_small",
+      "displayName": "WallDecor WallConsole Small",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallPanel_Large_Window_Double.fbx",
+      "assetId": "sm_wallpanel_large_window_double",
+      "displayName": "WallPanel Large Window Double",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier",
+        "large",
+        "double",
+        "transparent"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallPanel_Large_Window.fbx",
+      "assetId": "sm_wallpanel_large_window",
+      "displayName": "WallPanel Large Window",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier",
+        "large",
+        "transparent"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallPanel_Low_Solid.fbx",
+      "assetId": "sm_wallpanel_low_solid",
+      "displayName": "WallPanel Low Solid",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    },
+    {
+      "sourceFile": "assets/scifi_assets/fbx/SM_WallPanel_Low_Window.fbx",
+      "assetId": "sm_wallpanel_low_window",
+      "displayName": "WallPanel Low Window",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier",
+        "transparent"
+      ],
+      "confidence": 0.95,
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "requiresReview": false,
+      "warnings": []
+    }
+  ]
+}

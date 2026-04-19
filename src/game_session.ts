@@ -1,21 +1,21 @@
 import * as RL from "raylib";
 import { PhysicsWorld } from "./physics.ts";
-import { createPlayerState, updatePlayer, PlayerState } from "./player.ts";
-import { ShadowMap, updatePerFrame, renderDepthPass } from "./shadow.ts";
+import { createPlayerState, updatePlayer, PlayerState, EYE_HEIGHT } from "./player.ts";
+import { ShadowMap, updatePerFrame, renderDepthPass, renderDepthPassMap } from "./shadow.ts";
 import { GameServer } from "./net/server.ts";
 import { GameClient } from "./net/client.ts";
 import { GAME_PORT } from "./net/protocol.ts";
 import { RemotePlayer, updateAndDrawRemotePlayers, drawNametags } from "./remote_player.ts";
 import { PauseSettings, createPauseMenuState, drawPauseMenu, PauseMenuState } from "./ui/pause_menu.ts";
-import { getMesh } from "./scene.ts";
+import { getMesh, resolveRaylibMeshRange } from "./scene.ts";
 import { loadScene, unloadScene, makeCameraForScene, SceneState, SCENE_FILE } from "./scene_loader.ts";
 import { WorldRegistry, WorldObject } from "./world.ts";
-import { resolveRaylibMeshRange } from "./scene.ts";
 import { BehaviorContext } from "./behavior.ts";
 import { getPrefab } from "./prefab.ts";
 import { parseNodeMetadata } from "./metadata.ts";
 import { GameplayAPIImpl } from "./gameplay_api.ts";
 import { registerAllPrefabs } from "./prefabs/registry.ts";
+import { MapState, loadModularMap, unloadMap } from "./map_loader.ts";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -35,13 +35,14 @@ export type SessionResult =
 export class GameSession {
   // Core state
   physics:   PhysicsWorld;
-  ss:        SceneState;
+  ss:        SceneState | null;
   camera:    RL.Camera3D;
   player:    PlayerState;
   shadow:    ShadowMap;
   settings:  PauseSettings;
   world:     WorldRegistry;
   api:       GameplayAPIImpl;
+  mapState:  MapState | null;
 
   // Networking
   server:        GameServer | null = null;
@@ -64,34 +65,56 @@ export class GameSession {
 
   private constructor(
     physics:  PhysicsWorld,
-    ss:       SceneState,
+    ss:       SceneState | null,
     shadow:   ShadowMap,
     settings: PauseSettings,
     world:    WorldRegistry,
+    camera:   RL.Camera3D,
+    mapState: MapState | null,
   ) {
     this.physics  = physics;
     this.ss       = ss;
     this.shadow   = shadow;
     this.settings = settings;
     this.world    = world;
-    this.camera   = makeCameraForScene(ss, settings.fov);
+    this.camera   = camera;
+    this.mapState = mapState;
     this.player   = createPlayerState();
     this.api      = new GameplayAPIImpl(world, physics, this.camera, this.player);
   }
 
   // ── Factory ──────────────────────────────────────────────────────────────────
 
-  static async create(shadow: ShadowMap, settings: PauseSettings): Promise<GameSession> {
+  static async create(
+    shadow: ShadowMap,
+    settings: PauseSettings,
+    mapPath?: string,
+  ): Promise<GameSession> {
     registerAllPrefabs();
     const physics = await PhysicsWorld.create();
-    const ss      = loadScene(shadow, physics);
-    physics.createCharacter(ss.spawnX, ss.spawnY + 0.05, ss.spawnZ);
-
-    // Populate WorldRegistry from scene nodes
     const world = new WorldRegistry();
-    const session = new GameSession(physics, ss, shadow, settings, world);
-    _populateRegistry(world, ss, session);
 
+    if (mapPath) {
+      // Modular map mode
+      const mapState = loadModularMap(mapPath, "data/modular/asset_library.json", shadow, physics);
+      physics.createCharacter(mapState.spawnX, mapState.spawnY + 0.05, mapState.spawnZ);
+      const camY = mapState.spawnY + EYE_HEIGHT;
+      const camera = new RL.Camera3D({
+        position:   new RL.Vector3(mapState.spawnX, camY, mapState.spawnZ),
+        target:     new RL.Vector3(mapState.spawnX, camY, mapState.spawnZ - 1),
+        up:         new RL.Vector3(0, 1, 0),
+        fovy:       settings.fov,
+        projection: RL.CameraProjection.PERSPECTIVE,
+      });
+      return new GameSession(physics, null, shadow, settings, world, camera, mapState);
+    }
+
+    // Legacy scene.glb mode
+    const ss = loadScene(shadow, physics);
+    physics.createCharacter(ss.spawnX, ss.spawnY + 0.05, ss.spawnZ);
+    const camera = makeCameraForScene(ss, settings.fov);
+    const session = new GameSession(physics, ss, shadow, settings, world, camera, null);
+    _populateRegistry(world, ss, session);
     return session;
   }
 
@@ -174,18 +197,33 @@ export class GameSession {
 
     // Shadow depth pass
     updatePerFrame(this.shadow, this.camera);
-    renderDepthPass(this.shadow, this.ss.model, this.ss.navRange);
+    if (this.mapState) {
+      renderDepthPassMap(this.shadow, this.mapState.models, this.mapState.instances);
+    } else if (this.ss) {
+      renderDepthPass(this.shadow, this.ss.model, this.ss.navRange);
+    }
 
     // Main render
     RL.BeginDrawing();
     RL.ClearBackground(new RL.Color(100, 149, 237, 255));
     RL.BeginMode3D(this.camera);
 
-    // Static scene meshes (skip nav_mesh and dynamic objects)
-    for (let i = 0; i < this.ss.model.meshCount; i++) {
-      if (this.ss.navRange && i >= this.ss.navRange.start && i < this.ss.navRange.start + this.ss.navRange.count) continue;
-      if (this.ss.dynamicMeshIndices.has(i)) continue;
-      RL.DrawMesh(getMesh(this.ss.model, i), this.ss.mats[i], this.ss.model.transform);
+    // Scene geometry
+    if (this.mapState) {
+      // Map mode: draw all placed instances
+      for (const inst of this.mapState.instances) {
+        const asset = this.mapState.models[inst.modelIndex];
+        for (let i = 0; i < asset.meshCount; i++) {
+          RL.DrawMesh(getMesh(asset.model, i), asset.mats[i], inst.transform);
+        }
+      }
+    } else if (this.ss) {
+      // Legacy mode: static scene meshes (skip nav_mesh and dynamic objects)
+      for (let i = 0; i < this.ss.model.meshCount; i++) {
+        if (this.ss.navRange && i >= this.ss.navRange.start && i < this.ss.navRange.start + this.ss.navRange.count) continue;
+        if (this.ss.dynamicMeshIndices.has(i)) continue;
+        RL.DrawMesh(getMesh(this.ss.model, i), this.ss.mats[i], this.ss.model.transform);
+      }
     }
 
     // Debug: physics collider wireframes
@@ -193,16 +231,17 @@ export class GameSession {
       this.physics.drawColliderWireframes(new RL.Color(0, 255, 80, 200));
     }
 
-    // Dynamic physics objects with updated world transforms
-    // Compose physics transform with model.transform so visuals match physics space
-    for (const obj of this.ss.dynamicObjects) {
-      const physMat = this.physics.getDynamicTransform(obj.name);
-      if (!physMat) continue;
-      const renderMat = RL.MatrixMultiply(this.ss.modelTransform, physMat);
-      for (let i = obj.range.start; i < obj.range.start + obj.range.count; i++) {
-        RL.DrawMesh(getMesh(this.ss.model, i), this.ss.mats[i], renderMat);
+    // Dynamic physics objects with updated world transforms (scene mode only)
+    if (this.ss) {
+      for (const obj of this.ss.dynamicObjects) {
+        const physMat = this.physics.getDynamicTransform(obj.name);
+        if (!physMat) continue;
+        for (let i = obj.range.start; i < obj.range.start + obj.range.count; i++) {
+          RL.DrawMesh(getMesh(this.ss.model, i), this.ss.mats[i], physMat);
+        }
       }
     }
+
 
     if (this.client) updateAndDrawRemotePlayers(this.client.remotePlayers, this.remotePlayers, LERP_ALPHA);
     RL.EndMode3D();
@@ -231,7 +270,7 @@ export class GameSession {
   // ── Hot-reload ───────────────────────────────────────────────────────────────
 
   async checkHotReload(): Promise<void> {
-    if (!this.sceneReloadPending) return;
+    if (!this.sceneReloadPending || !this.ss) return;
     this.sceneReloadPending = false;
     console.log("[hot-reload] reloading scene…");
     try {
@@ -258,6 +297,7 @@ export class GameSession {
   }
 
   startFileWatcher(): void {
+    if (!this.ss) return;  // No file watcher in map mode
     this._watcherAbort = new AbortController();
     (async () => {
       try {
@@ -307,7 +347,8 @@ export class GameSession {
     this.client?.disconnect(); this.client = null;
     this.server?.stop();       this.server = null;
     this.remotePlayers.clear();
-    unloadScene(this.ss);
+    if (this.mapState) unloadMap(this.mapState);
+    if (this.ss) unloadScene(this.ss);
     this.physics.destroy();
   }
 }

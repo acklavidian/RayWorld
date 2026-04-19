@@ -238,6 +238,30 @@ export function renderDepthPass(
   RL.EndTextureMode();
 }
 
+/**
+ * Depth pass for modular maps: renders multiple instanced models from the
+ * light's perspective into the shadow FBO.
+ */
+export function renderDepthPassMap(
+  shadow:    ShadowMap,
+  models:    { model: RL.Model; meshCount: number }[],
+  instances: { modelIndex: number; transform: RL.Matrix }[],
+): void {
+  RL.BeginTextureMode(shadow.fbo);
+  RL.ClearBackground(RL.White);
+  RL.BeginMode3D(shadow.lightCam);
+
+  for (const inst of instances) {
+    const m = models[inst.modelIndex];
+    for (let i = 0; i < m.meshCount; i++) {
+      RL.DrawMesh(getMesh(m.model, i), shadow.depthMat, inst.transform);
+    }
+  }
+
+  RL.EndMode3D();
+  RL.EndTextureMode();
+}
+
 // ─── Cleanup ──────────────────────────────────────────────────────────────────
 
 export function destroyShadowMap(shadow: ShadowMap): void {

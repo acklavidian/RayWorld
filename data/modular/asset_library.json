@@ -1,0 +1,2367 @@
+{
+  "version": "1.0",
+  "grid": {
+    "cellSize": 2,
+    "upAxis": "Y",
+    "forwardAxis": "-Z"
+  },
+  "assets": [
+    {
+      "id": "pack_sm_floor_v1",
+      "sourcePath": "assets/scifi_assets/fbx/Pack_SciFi_A_005_SM_Floor_V1.fbx",
+      "displayName": "Floor V1",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "pack_sm_floor_v2",
+      "sourcePath": "assets/scifi_assets/fbx/Pack_SciFi_A_005_SM_Floor_V2.fbx",
+      "displayName": "Floor V2",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_angled_railing_cover",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Angled_Railing_Cover.fbx",
+      "displayName": "Angled Railing Cover",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "railing",
+        "east": "open",
+        "south": "railing",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_corner_cover_post",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Corner_Cover_Post.fbx",
+      "displayName": "Corner Cover Post",
+      "role": "corner",
+      "tags": [
+        "sci_fi",
+        "structural"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "solid",
+        "east": "solid",
+        "south": "wall",
+        "west": "wall",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_cross_beam_brace",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Cross_Beam_Brace.fbx",
+      "displayName": "Cross Beam Brace",
+      "role": "support",
+      "tags": [
+        "sci_fi",
+        "structural"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "support",
+        "east": "support",
+        "south": "support",
+        "west": "support",
+        "up": "support",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_door_double_v1l",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Double_V1L.fbx",
+      "displayName": "Door Double V1L",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_double_v1r",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Double_V1R.fbx",
+      "displayName": "Door Double V1R",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_double_v2l",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Double_V2L.fbx",
+      "displayName": "Door Double V2L",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_double_v2r",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Double_V2R.fbx",
+      "displayName": "Door Double V2R",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_double_v3l",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Double_V3L.fbx",
+      "displayName": "Door Double V3L",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_double_v3r",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Double_V3R.fbx",
+      "displayName": "Door Double V3R",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway",
+        "double"
+      ],
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_single_v1",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Single_V1.fbx",
+      "displayName": "Door Single V1",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_single_v2",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Single_V2.fbx",
+      "displayName": "Door Single V2",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door_single_v3",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door_Single_V3.fbx",
+      "displayName": "Door Single V3",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_door",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Door.fbx",
+      "displayName": "Door",
+      "role": "door",
+      "tags": [
+        "sci_fi",
+        "interactive",
+        "doorway"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_doorframe_double",
+      "sourcePath": "assets/scifi_assets/fbx/SM_DoorFrame_Double.fbx",
+      "displayName": "DoorFrame Double",
+      "role": "door_frame",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "doorway",
+        "double"
+      ],
+      "footprint": [
+        2,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_doorframe_single",
+      "sourcePath": "assets/scifi_assets/fbx/SM_DoorFrame_Single.fbx",
+      "displayName": "DoorFrame Single",
+      "role": "door_frame",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "doorway"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "doorway",
+        "east": "solid",
+        "south": "doorway",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_floor_glass",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_Glass.fbx",
+      "displayName": "Floor Glass",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "transparent"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_floor_grate",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_Grate.fbx",
+      "displayName": "Floor Grate",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "ventilation"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_floor_line_corner",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_Line_Corner.fbx",
+      "displayName": "Floor Line Corner",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_floor_line_cross",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_Line_Cross.fbx",
+      "displayName": "Floor Line Cross",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_floor_line_straight",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_Line_Straight.fbx",
+      "displayName": "Floor Line Straight",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_floor_line_t",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_Line_T.fbx",
+      "displayName": "Floor Line T",
+      "role": "trim",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "floor_marking"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_floor_v1_large",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_V1_Large.fbx",
+      "displayName": "Floor V1 Large",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "large"
+      ],
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_floor_v1",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_V1.fbx",
+      "displayName": "Floor V1",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_floor_v2_large",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_V2_Large.fbx",
+      "displayName": "Floor V2 Large",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "large"
+      ],
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_floor_v2",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Floor_V2.fbx",
+      "displayName": "Floor V2",
+      "role": "floor",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "open",
+        "south": "open",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_pente_a",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Pente_A.fbx",
+      "displayName": "Pente A",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "solid",
+        "south": "open",
+        "west": "solid",
+        "up": "open",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_pente_b",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Pente_B.fbx",
+      "displayName": "Pente B",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "solid",
+        "south": "open",
+        "west": "solid",
+        "up": "open",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_pente_c",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Pente_C.fbx",
+      "displayName": "Pente C",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "solid",
+        "south": "open",
+        "west": "solid",
+        "up": "open",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_pente_d",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Pente_D.fbx",
+      "displayName": "Pente D",
+      "role": "slope",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "solid",
+        "south": "open",
+        "west": "solid",
+        "up": "open",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_railing_divider_post",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Railing_Divider_Post.fbx",
+      "displayName": "Railing Divider Post",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "railing",
+        "east": "open",
+        "south": "railing",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_rambard_2m",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Rambard_2M.fbx",
+      "displayName": "Rambard 2M",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "railing",
+        "east": "open",
+        "south": "railing",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_rambard",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Rambard.fbx",
+      "displayName": "Rambard",
+      "role": "railing",
+      "tags": [
+        "sci_fi",
+        "barrier",
+        "safety"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "railing",
+        "east": "open",
+        "south": "railing",
+        "west": "open",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_stairmodule_long",
+      "sourcePath": "assets/scifi_assets/fbx/SM_StairModule_Long.fbx",
+      "displayName": "StairModule Long",
+      "role": "stairs",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "footprint": [
+        1,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "solid",
+        "south": "open",
+        "west": "solid",
+        "up": "open",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        4
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_stairmodule_short",
+      "sourcePath": "assets/scifi_assets/fbx/SM_StairModule_Short.fbx",
+      "displayName": "StairModule Short",
+      "role": "stairs",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "walkable",
+        "vertical"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "open",
+        "east": "solid",
+        "south": "open",
+        "west": "solid",
+        "up": "open",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": true,
+      "blocksMovement": false,
+      "isStructural": true
+    },
+    {
+      "id": "sm_support_beam_large",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Support_Beam_Large.fbx",
+      "displayName": "Support Beam Large",
+      "role": "support",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "large"
+      ],
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "support",
+        "east": "support",
+        "south": "support",
+        "west": "support",
+        "up": "support",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_support_beam",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Support_Beam.fbx",
+      "displayName": "Support Beam",
+      "role": "support",
+      "tags": [
+        "sci_fi",
+        "structural"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "support",
+        "east": "support",
+        "south": "support",
+        "west": "support",
+        "up": "support",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wall_v0",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Wall_V0.fbx",
+      "displayName": "Wall V0",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wall_v1",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Wall_V1.fbx",
+      "displayName": "Wall V1",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wall_v2",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Wall_V2.fbx",
+      "displayName": "Wall V2",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wall_v3",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Wall_V3.fbx",
+      "displayName": "Wall V3",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wall_v4",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Wall_V4.fbx",
+      "displayName": "Wall V4",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wall_v5",
+      "sourcePath": "assets/scifi_assets/fbx/SM_Wall_V5.fbx",
+      "displayName": "Wall V5",
+      "role": "wall",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_walldecor_cablepanel_wide",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_CablePanel_Wide.fbx",
+      "displayName": "WallDecor CablePanel Wide",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_energystorage_panel",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_EnergyStorage_Panel.fbx",
+      "displayName": "WallDecor EnergyStorage Panel",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_gratepanel_large",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_GratePanel_Large.fbx",
+      "displayName": "WallDecor GratePanel Large",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large",
+        "ventilation"
+      ],
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_industrialgrate",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_IndustrialGrate.fbx",
+      "displayName": "WallDecor IndustrialGrate",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "ventilation"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_statuspanel",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_StatusPanel.fbx",
+      "displayName": "WallDecor StatusPanel",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_techpanel_wide",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_TechPanel_Wide.fbx",
+      "displayName": "WallDecor TechPanel Wide",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_utility_tall",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_Utility_Tall.fbx",
+      "displayName": "WallDecor Utility Tall",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_utility_vertical",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_Utility_Vertical.fbx",
+      "displayName": "WallDecor Utility Vertical",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_vent_wide",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_Vent_Wide.fbx",
+      "displayName": "WallDecor Vent Wide",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large",
+        "ventilation"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_ventpanel",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_VentPanel.fbx",
+      "displayName": "WallDecor VentPanel",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "ventilation"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_wallconsole_large",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_WallConsole_Large.fbx",
+      "displayName": "WallDecor WallConsole Large",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative",
+        "large"
+      ],
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_walldecor_wallconsole_small",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallDecor_WallConsole_Small.fbx",
+      "displayName": "WallDecor WallConsole Small",
+      "role": "decor",
+      "tags": [
+        "sci_fi",
+        "decorative"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "none",
+        "east": "none",
+        "south": "none",
+        "west": "none",
+        "up": "none",
+        "down": "none"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": false,
+      "isStructural": false
+    },
+    {
+      "id": "sm_wallpanel_large_window_double",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallPanel_Large_Window_Double.fbx",
+      "displayName": "WallPanel Large Window Double",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier",
+        "large",
+        "double",
+        "transparent"
+      ],
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wallpanel_large_window",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallPanel_Large_Window.fbx",
+      "displayName": "WallPanel Large Window",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier",
+        "large",
+        "transparent"
+      ],
+      "footprint": [
+        2,
+        1,
+        2
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        4,
+        2,
+        4
+      ],
+      "normalizedBounds": [
+        4,
+        2,
+        4
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wallpanel_low_solid",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallPanel_Low_Solid.fbx",
+      "displayName": "WallPanel Low Solid",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    },
+    {
+      "id": "sm_wallpanel_low_window",
+      "sourcePath": "assets/scifi_assets/fbx/SM_WallPanel_Low_Window.fbx",
+      "displayName": "WallPanel Low Window",
+      "role": "wall_panel",
+      "tags": [
+        "sci_fi",
+        "structural",
+        "barrier",
+        "transparent"
+      ],
+      "footprint": [
+        1,
+        1,
+        1
+      ],
+      "rotationStep": 90,
+      "sockets": {
+        "north": "wall",
+        "east": "solid",
+        "south": "wall",
+        "west": "solid",
+        "up": "empty",
+        "down": "support"
+      },
+      "pivot": "bottom_center",
+      "rawBounds": [
+        2,
+        2,
+        2
+      ],
+      "normalizedBounds": [
+        2,
+        2,
+        2
+      ],
+      "walkable": false,
+      "blocksMovement": true,
+      "isStructural": true
+    }
+  ]
+}

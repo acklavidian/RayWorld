@@ -55,6 +55,8 @@ export class App {
       return false;
     } else if (choice?.action === "host") {
       this._startHost();
+    } else if (choice?.action === "test_map") {
+      this._startTestMap();
     } else if (choice?.action === "browse") {
       this.browserState = createBrowserState();
       this.state = "SERVER_BROWSER";
@@ -121,12 +123,20 @@ export class App {
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 
-  private async _startHost(): Promise<void> {
-    this.session = await GameSession.create(this.shadow, this.settings);
+  private async _startHost(mapPath?: string): Promise<void> {
+    this.session = await GameSession.create(this.shadow, this.settings, mapPath);
     this.session.startFileWatcher();
     this.state = "CONNECTING";
     this.connectingPromise = this.session.startHost(GAME_PORT);
     this.statusMsg = "Starting server…";
+  }
+
+  private async _startTestMap(): Promise<void> {
+    this.session = await GameSession.create(
+      this.shadow, this.settings, "data/modular/example_test_corridor_map.json",
+    );
+    // No networking for test map — go straight to playing
+    this._enterPlaying();
   }
 
   private async _startConnect(hostname: string, port: number): Promise<void> {
