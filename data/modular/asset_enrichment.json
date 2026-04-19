@@ -1,0 +1,881 @@
+{
+  "pack_sm_floor_v1": {
+    "visualDescription": "Floor tile with 2 inner black rings.",
+    "surfaceTags": [
+      "panel",
+      "clean",
+      "light-colored"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "Floor accents",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "pack_sm_floor_v1",
+    "enrichedAt": "2026-04-19T18:14:21.602Z"
+  },
+  "pack_sm_floor_v2": {
+    "visualDescription": "Floor tile with inner black ring and black square in the middle",
+    "surfaceTags": [
+      "panel"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "Floor accent",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "pack_sm_floor_v2",
+    "enrichedAt": "2026-04-19T18:14:21.986Z"
+  },
+  "sm_angled_railing_cover": {
+    "visualDescription": "Black angled railing for the side of stairs and angled balconies.",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "the side of stairs and angled balconies as railing",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_angled_railing_cover",
+    "enrichedAt": "2026-04-19T18:14:22.204Z"
+  },
+  "sm_corner_cover_post": {
+    "visualDescription": "Cover post for the edge of wall tiles.  Can be used in corners or as edge/frame of doorway.",
+    "surfaceTags": [
+      "glowing",
+      "dark"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "Corners connecting wall tiles or door frames.",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_corner_cover_post",
+    "enrichedAt": "2026-04-19T18:14:22.435Z"
+  },
+  "sm_cross_beam_brace": {
+    "visualDescription": "Brace used to build scaffolding/supports/balconies/etc.  Can be used in conjunction with floor tiles",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "dark"
+    ],
+    "opacity": "",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_cross_beam_brace",
+    "enrichedAt": "2026-04-19T18:14:24.186Z"
+  },
+  "sm_door_double_v1l": {
+    "visualDescription": "Small door with thin small window - slides open to the left",
+    "surfaceTags": [
+      "metal",
+      "light-colored"
+    ],
+    "opacity": "mixed",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_double",
+      "sm_doorframe_single"
+    ],
+    "gotchas": "it says double but it looks like a single wide door to me",
+    "id": "sm_door_double_v1l",
+    "enrichedAt": "2026-04-19T18:14:24.426Z"
+  },
+  "sm_door_double_v1r": {
+    "visualDescription": "Small door with thin small window - slides open to the right",
+    "surfaceTags": [
+      "metal",
+      "light-colored"
+    ],
+    "opacity": "mixed",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_double",
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_double_v1r",
+    "enrichedAt": "2026-04-19T18:14:24.636Z"
+  },
+  "sm_door_double_v2l": {
+    "visualDescription": "Small solid door - dark color - slides open to the left",
+    "surfaceTags": [
+      "metal",
+      "dark"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_double",
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_double_v2l",
+    "enrichedAt": "2026-04-19T18:14:24.918Z"
+  },
+  "sm_door_double_v2r": {
+    "visualDescription": "Small solid door - dark color - slides open to the right",
+    "surfaceTags": [
+      "metal",
+      "dark"
+    ],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_double",
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_double_v2r",
+    "enrichedAt": "2026-04-19T18:14:25.151Z"
+  },
+  "sm_door_double_v3l": {
+    "visualDescription": "Small solid door - light color - slides open to the left",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "light-colored"
+    ],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_double",
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_double_v3l",
+    "enrichedAt": "2026-04-19T18:14:25.436Z"
+  },
+  "sm_door_double_v3r": {
+    "visualDescription": "Small solid door - light color - slides open to the right",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "light-colored"
+    ],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_double",
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_double_v3r",
+    "enrichedAt": "2026-04-19T18:14:25.688Z"
+  },
+  "sm_door_single_v1": {
+    "visualDescription": "Small solid door - light color with dark trim- slides open to the left",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_single_v1",
+    "enrichedAt": "2026-04-19T18:14:25.935Z"
+  },
+  "sm_door_single_v2": {
+    "visualDescription": "Small door with two large windows - light color with dark trim- slides open to the left",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "mixed",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_single_v2",
+    "enrichedAt": "2026-04-19T18:14:26.185Z"
+  },
+  "sm_door_single_v3": {
+    "visualDescription": "Small solid door - slides open to the left",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_doorframe_single"
+    ],
+    "gotchas": "",
+    "id": "sm_door_single_v3",
+    "enrichedAt": "2026-04-19T18:14:26.468Z"
+  },
+  "sm_door": {
+    "visualDescription": "Door frame. Open with no doors. Dark with orange trim.",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "dark"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_door_double_v1l",
+      "sm_door_double_v1r",
+      "sm_door_double_v2l",
+      "sm_door_double_v2r",
+      "sm_door_double_v3l",
+      "sm_door_double_v3r"
+    ],
+    "gotchas": "",
+    "id": "sm_door",
+    "enrichedAt": "2026-04-19T18:14:26.735Z"
+  },
+  "sm_doorframe_double": {
+    "visualDescription": "Door frame. Open with no doors. Metallic.",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "light-colored"
+    ],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_door_double_v1l",
+      "sm_door_double_v1r",
+      "sm_door_double_v2l",
+      "sm_door_double_v2r",
+      "sm_door_double_v3l",
+      "sm_door_double_v3r"
+    ],
+    "gotchas": "",
+    "id": "sm_doorframe_double",
+    "enrichedAt": "2026-04-19T18:14:27.169Z"
+  },
+  "sm_doorframe_single": {
+    "visualDescription": "",
+    "surfaceTags": [],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_door_single_v1",
+      "sm_door_single_v2",
+      "sm_door_single_v3"
+    ],
+    "gotchas": "",
+    "id": "sm_doorframe_single",
+    "enrichedAt": "2026-04-19T18:14:27.403Z"
+  },
+  "sm_floor_glass": {
+    "visualDescription": "Glass floor tile with thick metal edge",
+    "surfaceTags": [
+      "metal",
+      "glass"
+    ],
+    "opacity": "mixed",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_glass",
+    "enrichedAt": "2026-04-19T18:14:27.668Z"
+  },
+  "sm_floor_grate": {
+    "visualDescription": "Floor grate tile with thick metal edge",
+    "surfaceTags": [],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_grate",
+    "enrichedAt": "2026-04-19T18:14:28.004Z"
+  },
+  "sm_floor_line_corner": {
+    "visualDescription": "Floor tile with glowing \"L\" shaped line. Used for corners.",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "Corners",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_line_corner",
+    "enrichedAt": "2026-04-19T18:14:28.254Z"
+  },
+  "sm_floor_line_cross": {
+    "visualDescription": "Floor tile with glowing \"+\" shaped line in the center.",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "decoration, center of the floor of the room.",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_line_cross",
+    "enrichedAt": "2026-04-19T18:14:28.519Z"
+  },
+  "sm_floor_line_straight": {
+    "visualDescription": "Floor tile with glowing \"|\" shaped line in the center",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "Used decoratively to either give direction or to keep things visually interesting",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_line_straight",
+    "enrichedAt": "2026-04-19T18:14:28.786Z"
+  },
+  "sm_floor_line_t": {
+    "visualDescription": "Floor tile with glowing \"T\" shaped line in the center. Used for 3 way intersections",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "Used for 3 way intersections",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_line_t",
+    "enrichedAt": "2026-04-19T18:14:29.038Z"
+  },
+  "sm_floor_v1_large": {
+    "visualDescription": "White floor panel with 4 black square pattern.",
+    "surfaceTags": [
+      "metal",
+      "light-colored"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_v1_large",
+    "enrichedAt": "2026-04-19T18:14:29.286Z"
+  },
+  "sm_floor_v1": {
+    "visualDescription": "Floor tile with inner black square outline.",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_v1",
+    "enrichedAt": "2026-04-19T18:14:29.537Z"
+  },
+  "sm_floor_v2_large": {
+    "visualDescription": "Floor tile with 4 large black squares",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_v2_large",
+    "enrichedAt": "2026-04-19T18:14:29.785Z"
+  },
+  "sm_floor_v2": {
+    "visualDescription": "Floor panel with large black square in the middle",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_floor_v2",
+    "enrichedAt": "2026-04-19T18:14:30.076Z"
+  },
+  "sm_pente_a": {
+    "visualDescription": "Sloped/Ramped floor tile with orange square accent.",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "light-colored"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_pente_a",
+    "enrichedAt": "2026-04-19T18:14:30.354Z"
+  },
+  "sm_pente_b": {
+    "visualDescription": "Sloped/Ramped floor tile with orange square accent. Creates a step up instead of meeting smooth with the floor.",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "light-colored"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_pente_b",
+    "enrichedAt": "2026-04-19T18:14:30.656Z"
+  },
+  "sm_pente_c": {
+    "visualDescription": "Floor tile that looks like a diamond bent in half. It slopes up. from the floor. Orange trim.",
+    "surfaceTags": [
+      "metal",
+      "light-colored"
+    ],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_pente_c",
+    "enrichedAt": "2026-04-19T18:14:30.918Z"
+  },
+  "sm_pente_d": {
+    "visualDescription": "Floor tile that looks like a diamond bent in half. It slopes down like a valley. Orange trim.",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "floor-level",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_pente_d",
+    "enrichedAt": "2026-04-19T18:14:31.226Z"
+  },
+  "sm_railing_divider_post": {
+    "visualDescription": "Railing divider post. Used to",
+    "surfaceTags": [],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_angled_railing_cover",
+      "sm_door",
+      "sm_rambard_2m",
+      "sm_rambard"
+    ],
+    "gotchas": "",
+    "id": "sm_railing_divider_post",
+    "enrichedAt": "2026-04-19T18:14:31.452Z"
+  },
+  "sm_rambard_2m": {
+    "visualDescription": "Solid railing for posts",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_angled_railing_cover",
+      "sm_railing_divider_post",
+      "sm_rambard"
+    ],
+    "gotchas": "",
+    "id": "sm_rambard_2m",
+    "enrichedAt": "2026-04-19T18:14:31.734Z"
+  },
+  "sm_rambard": {
+    "visualDescription": "Railing to connect to posts",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [
+      "sm_angled_railing_cover",
+      "sm_railing_divider_post",
+      "sm_rambard_2m"
+    ],
+    "gotchas": "",
+    "id": "sm_rambard",
+    "enrichedAt": "2026-04-19T18:14:32.071Z"
+  },
+  "sm_stairmodule_long": {
+    "visualDescription": "Regular stairs",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_stairmodule_long",
+    "enrichedAt": "2026-04-19T18:14:32.378Z"
+  },
+  "sm_stairmodule_short": {
+    "visualDescription": "Split Stairs",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_stairmodule_short",
+    "enrichedAt": "2026-04-19T18:14:32.675Z"
+  },
+  "sm_support_beam_large": {
+    "visualDescription": "Thicker. Support Beam, goes under floor tiles. Extends further down.",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "Visual support under tiles especially for. balconies",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_support_beam_large",
+    "enrichedAt": "2026-04-19T18:14:32.951Z"
+  },
+  "sm_support_beam": {
+    "visualDescription": "Support Beam, goes under floor tiles.",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_support_beam",
+    "enrichedAt": "2026-04-19T18:16:49.603Z"
+  },
+  "sm_wall_v0": {
+    "visualDescription": "Wall panel with orange inner trim",
+    "surfaceTags": [
+      "metal",
+      "light-colored"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wall_v0",
+    "enrichedAt": "2026-04-19T18:16:49.860Z"
+  },
+  "sm_wall_v1": {
+    "visualDescription": "Wall panel with orange inner trim and lower black bar with glowing light.",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wall_v1",
+    "enrichedAt": "2026-04-19T18:16:50.093Z"
+  },
+  "sm_wall_v2": {
+    "visualDescription": "Wall panel with orange inner trim and two small glowing lights on centered on each side",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wall_v2",
+    "enrichedAt": "2026-04-19T18:16:50.310Z"
+  },
+  "sm_wall_v3": {
+    "visualDescription": "Wall panel with orange inner trim and two large glowing bars in the center",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wall_v3",
+    "enrichedAt": "2026-04-19T18:16:50.542Z"
+  },
+  "sm_wall_v4": {
+    "visualDescription": "Wall panel with orange inner trim and large black closed grate in the center",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wall_v4",
+    "enrichedAt": "2026-04-19T18:16:50.763Z"
+  },
+  "sm_wall_v5": {
+    "visualDescription": "Wall panel with orange inner trim and 3 inlayed panels",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wall_v5",
+    "enrichedAt": "2026-04-19T18:16:50.995Z"
+  },
+  "sm_walldecor_cablepanel_wide": {
+    "visualDescription": "Wall decor with wires and other decorative elements",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "used sparingly as \"access panels\"",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_cablepanel_wide",
+    "enrichedAt": "2026-04-19T18:16:51.214Z"
+  },
+  "sm_walldecor_energystorage_panel": {
+    "visualDescription": "Wall decor with energy capsules.",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "half-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_energystorage_panel",
+    "enrichedAt": "2026-04-19T18:16:51.457Z"
+  },
+  "sm_walldecor_gratepanel_large": {
+    "visualDescription": "Wall decor - large grate",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_gratepanel_large",
+    "enrichedAt": "2026-04-19T18:16:51.699Z"
+  },
+  "sm_walldecor_industrialgrate": {
+    "visualDescription": "Wall decor.  Two panels split top and bottom,  the center connected by pipes on the left side. Looks like a work station.",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_industrialgrate",
+    "enrichedAt": "2026-04-19T18:16:52.003Z"
+  },
+  "sm_walldecor_statuspanel": {
+    "visualDescription": "Two panels split left and right connected by wires.",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_statuspanel",
+    "enrichedAt": "2026-04-19T18:16:52.737Z"
+  },
+  "sm_walldecor_techpanel_wide": {
+    "visualDescription": "Wall decor - tech read out panel",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_techpanel_wide",
+    "enrichedAt": "2026-04-19T18:16:53.042Z"
+  },
+  "sm_walldecor_utility_tall": {
+    "visualDescription": "Wall decor - Thin tall access panel",
+    "surfaceTags": [
+      "metal",
+      "light-colored"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_utility_tall",
+    "enrichedAt": "2026-04-19T18:16:53.317Z"
+  },
+  "sm_walldecor_utility_vertical": {
+    "visualDescription": "Wall decor - Thin tall access panel",
+    "surfaceTags": [
+      "metal",
+      "glowing",
+      "dark"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_utility_vertical",
+    "enrichedAt": "2026-04-19T18:16:53.599Z"
+  },
+  "sm_walldecor_vent_wide": {
+    "visualDescription": "Wall Decor - Large vent",
+    "surfaceTags": [
+      "metal",
+      "light-colored"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_vent_wide",
+    "enrichedAt": "2026-04-19T18:16:53.862Z"
+  },
+  "sm_walldecor_ventpanel": {
+    "visualDescription": "Wall decor - half vent with panel",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "half-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_ventpanel",
+    "enrichedAt": "2026-04-19T18:16:54.233Z"
+  },
+  "sm_walldecor_wallconsole_large": {
+    "visualDescription": "Wall decor - half light panel",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "half-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_wallconsole_large",
+    "enrichedAt": "2026-04-19T18:16:54.686Z"
+  },
+  "sm_walldecor_wallconsole_small": {
+    "visualDescription": "Wall decor - computer panel",
+    "surfaceTags": [
+      "metal",
+      "glowing"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_walldecor_wallconsole_small",
+    "enrichedAt": "2026-04-19T18:16:55.433Z"
+  },
+  "sm_wallpanel_large_window_double": {
+    "visualDescription": "Wall panel with large transparent windows",
+    "surfaceTags": [
+      "metal",
+      "glass"
+    ],
+    "opacity": "mixed",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wallpanel_large_window_double",
+    "enrichedAt": "2026-04-19T18:09:31.208Z"
+  },
+  "sm_wallpanel_large_window": {
+    "visualDescription": "Wall panel with large single transparent window",
+    "surfaceTags": [
+      "metal",
+      "glass"
+    ],
+    "opacity": "mixed",
+    "heightCoverage": "full-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wallpanel_large_window",
+    "enrichedAt": "2026-04-19T18:09:30.976Z"
+  },
+  "sm_wallpanel_low_solid": {
+    "visualDescription": "",
+    "surfaceTags": [
+      "metal"
+    ],
+    "opacity": "opaque",
+    "heightCoverage": "half-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wallpanel_low_solid",
+    "enrichedAt": "2026-04-19T18:09:30.758Z"
+  },
+  "sm_wallpanel_low_window": {
+    "visualDescription": "",
+    "surfaceTags": [
+      "metal",
+      "glass"
+    ],
+    "opacity": "mixed",
+    "heightCoverage": "half-height",
+    "bestUsedFor": "",
+    "pairsWith": [],
+    "gotchas": "",
+    "id": "sm_wallpanel_low_window",
+    "enrichedAt": "2026-04-19T18:09:30.509Z"
+  }
+}

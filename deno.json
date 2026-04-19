@@ -11,7 +11,8 @@
     "asset:validate": "deno run --allow-read tools/modular-assets/validate_assets.ts",
     "map:validate": "deno run --allow-read tools/modular-assets/validate_map.ts",
     "map:example": "deno run --allow-read --allow-write tools/modular-assets/generate_example.ts",
-    "asset:convert": "blender --background --python tools/modular-assets/convert_to_glb.py"
+    "asset:convert": "blender --background --python tools/modular-assets/convert_to_glb.py",
+    "asset:enrich": "deno run --allow-read --allow-write --allow-net tools/modular-assets/enrichment/server.ts"
   },
   "compilerOptions": {
     "types": ["./raylib/global.d.ts"]

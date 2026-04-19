@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RayWorld Asset Enrichment</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+  }
+
+  /* Top bar */
+  .topbar {
+    grid-column: 1 / -1;
+    background: #16213e;
+    border-bottom: 1px solid #0f3460;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .topbar h1 {
+    font-size: 16px;
+    color: #e94560;
+    white-space: nowrap;
+  }
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-controls button {
+    background: #0f3460;
+    color: #e0e0e0;
+    border: 1px solid #1a1a5e;
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  .nav-controls button:hover { background: #1a1a5e; }
+  .nav-controls button:disabled { opacity: 0.3; cursor: default; }
+
+  .asset-name {
+    font-size: 15px;
+    font-weight: bold;
+    color: #e94560;
+    flex: 1;
+  }
+
+  .progress {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  .progress .done { color: #4ade80; }
+
+  .filter-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .filter-controls select {
+    background: #0f3460;
+    color: #e0e0e0;
+    border: 1px solid #1a1a5e;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  /* 3D viewport */
+  .viewport {
+    position: relative;
+    background: #111;
+    overflow: hidden;
+  }
+
+  .viewport canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
+  .viewport-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 11px;
+    color: #666;
+    pointer-events: none;
+  }
+
+  .screenshot-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(15, 52, 96, 0.8);
+    color: #e0e0e0;
+    border: 1px solid #1a1a5e;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  .screenshot-btn:hover { background: rgba(26, 26, 94, 0.9); }
+
+  /* Form panel */
+  .panel {
+    background: #16213e;
+    border-left: 1px solid #0f3460;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .panel h2 {
+    font-size: 13px;
+    color: #e94560;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #0f3460;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .field textarea, .field input[type="text"], .field select {
+    width: 100%;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+  }
+
+  .field textarea:focus, .field input:focus, .field select:focus {
+    outline: none;
+    border-color: #e94560;
+  }
+
+  .field textarea { min-height: 60px; }
+
+  /* Tag chips */
+  .tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    background: #1a1a2e;
+    border: 1px solid #0f3460;
+    border-radius: 12px;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+  }
+
+  .tag-chip:hover { border-color: #e94560; }
+  .tag-chip.selected {
+    background: #e94560;
+    border-color: #e94560;
+    color: white;
+  }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .radio-chip {
+    padding: 4px 10px;
+    background: #1a1a2e;
+    border: 1px solid #0f3460;
+    border-radius: 12px;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+  }
+
+  .radio-chip:hover { border-color: #e94560; }
+  .radio-chip.selected {
+    background: #e94560;
+    border-color: #e94560;
+    color: white;
+  }
+
+  /* Pairs-with multi-select */
+  .pairs-select {
+    width: 100%;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    padding: 4px;
+    font-size: 12px;
+    min-height: 100px;
+  }
+
+  .pairs-select option { padding: 2px 6px; }
+  .pairs-select option:checked { background: #e94560; color: white; }
+
+  /* Asset info (read-only) */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .info-item {
+    font-size: 11px;
+  }
+
+  .info-item .label { color: #666; }
+  .info-item .value { color: #e0e0e0; }
+
+  /* Save indicator */
+  .save-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 440px;
+    background: #4ade80;
+    color: #000;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .save-indicator.show { opacity: 1; }
+
+  /* Status badge */
+  .status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+  }
+  .status-badge.enriched { background: #4ade80; color: #000; }
+  .status-badge.pending { background: #f59e0b; color: #000; }
+
+  /* Keyboard shortcuts hint */
+  .shortcuts {
+    font-size: 10px;
+    color: #555;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid #0f3460;
+  }
+  .shortcuts kbd {
+    background: #1a1a2e;
+    border: 1px solid #333;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Top bar -->
+  <div class="topbar">
+    <h1>RayWorld Asset Enrichment</h1>
+    <div class="nav-controls">
+      <button id="prevBtn" title="Previous (Left Arrow)">Prev</button>
+      <button id="nextBtn" title="Next (Right Arrow)">Next</button>
+    </div>
+    <span class="asset-name" id="assetName">Loading...</span>
+    <div class="filter-controls">
+      <select id="filterRole" title="Filter by role">
+        <option value="">All roles</option>
+      </select>
+      <select id="filterStatus" title="Filter by status">
+        <option value="">All</option>
+        <option value="pending">Pending</option>
+        <option value="enriched">Enriched</option>
+      </select>
+    </div>
+    <span class="progress" id="progress"></span>
+  </div>
+
+  <!-- 3D viewport -->
+  <div class="viewport" id="viewport">
+    <div class="viewport-overlay" id="viewportInfo">Scroll to zoom. Drag to orbit. Right-drag to pan.</div>
+    <button class="screenshot-btn" id="screenshotBtn" title="Capture screenshot">Screenshot</button>
+  </div>
+
+  <!-- Form panel -->
+  <div class="panel" id="panel">
+    <!-- Asset info (read-only from library) -->
+    <h2>Asset Info <span class="status-badge" id="statusBadge"></span></h2>
+    <div class="info-grid" id="infoGrid"></div>
+
+    <h2>Enrichment</h2>
+
+    <div class="field">
+      <label>Visual Description</label>
+      <textarea id="visualDescription" placeholder="What does this asset look like? Materials, colors, shape, distinctive features..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Surface / Material Tags</label>
+      <div class="tag-grid" id="surfaceTags"></div>
+    </div>
+
+    <div class="field">
+      <label>Opacity</label>
+      <div class="radio-group" id="opacity"></div>
+    </div>
+
+    <div class="field">
+      <label>Height Coverage</label>
+      <div class="radio-group" id="heightCoverage"></div>
+    </div>
+
+    <div class="field">
+      <label>Best Used For</label>
+      <textarea id="bestUsedFor" placeholder="Corridors, engine rooms, observation decks, perimeter walls..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Pairs Well With (Ctrl+click to multi-select)</label>
+      <select id="pairsWith" class="pairs-select" multiple></select>
+    </div>
+
+    <div class="field">
+      <label>Gotchas / Notes</label>
+      <textarea id="gotchas" placeholder="Any quirks, placement rules, known issues..."></textarea>
+    </div>
+
+    <div class="shortcuts">
+      <kbd>&larr;</kbd> <kbd>&rarr;</kbd> Navigate &nbsp;
+      <kbd>Ctrl+S</kbd> Save &nbsp;
+      <kbd>P</kbd> Screenshot
+    </div>
+  </div>
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved!</div>
+
+<!-- Three.js -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+// ---- Config ----
+
+const SURFACE_TAGS = [
+  'metal', 'glass', 'grate', 'panel', 'riveted', 'smooth',
+  'textured', 'painted', 'rusty', 'clean', 'damaged', 'glowing',
+  'dark', 'light-colored', 'transparent', 'carbon-fiber', 'plastic',
+  'concrete', 'wood'
+];
+
+const OPACITY_OPTIONS = ['opaque', 'semi-transparent', 'transparent', 'mixed'];
+
+const HEIGHT_OPTIONS = [
+  'full-height', 'half-height', 'quarter-height', 'floor-level',
+  'ceiling-level', 'wall-mounted', 'freestanding'
+];
+
+// ---- State ----
+
+let assets = [];          // from asset_library.json
+let enrichment = {};      // from asset_enrichment.json
+let filteredIndices = [];  // indices into assets[] after filtering
+let currentFilteredIdx = 0;
+let currentModel = null;
+
+// ---- Three.js Setup ----
+
+const viewport = document.getElementById('viewport');
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setClearColor(0x111111);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+viewport.insertBefore(renderer.domElement, viewport.firstChild);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
+camera.position.set(3, 2.5, 3);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.1;
+controls.target.set(0, 1, 0);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404050, 0.8);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0xffeedd, 1.5);
+dirLight.position.set(5, 8, 5);
+scene.add(dirLight);
+
+const fillLight = new THREE.DirectionalLight(0x8888ff, 0.4);
+fillLight.position.set(-3, 2, -3);
+scene.add(fillLight);
+
+// Grid floor
+const gridHelper = new THREE.GridHelper(10, 10, 0x333355, 0x222244);
+scene.add(gridHelper);
+
+// Scale reference (2m cube outline matching cellSize)
+const refGeo = new THREE.BoxGeometry(2, 2, 2);
+const refEdges = new THREE.EdgesGeometry(refGeo);
+const refLine = new THREE.LineSegments(refEdges, new THREE.LineBasicMaterial({ color: 0x334466, transparent: true, opacity: 0.3 }));
+refLine.position.y = 1;
+scene.add(refLine);
+
+// Axis helper
+const axisHelper = new THREE.AxesHelper(1);
+axisHelper.position.set(-4.5, 0.01, -4.5);
+scene.add(axisHelper);
+
+const loader = new GLTFLoader();
+
+function resizeRenderer() {
+  const w = viewport.clientWidth;
+  const h = viewport.clientHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+
+window.addEventListener('resize', resizeRenderer);
+resizeRenderer();
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+// ---- Load Data ----
+
+async function init() {
+  const [assetsRes, enrichRes] = await Promise.all([
+    fetch('/api/assets').then(r => r.json()),
+    fetch('/api/enrichment').then(r => r.json())
+  ]);
+
+  assets = assetsRes.assets;
+  enrichment = enrichRes;
+
+  // Populate filter dropdown
+  const roles = [...new Set(assets.map(a => a.role))].sort();
+  const roleSelect = document.getElementById('filterRole');
+  for (const role of roles) {
+    const opt = document.createElement('option');
+    opt.value = role;
+    opt.textContent = role;
+    roleSelect.appendChild(opt);
+  }
+
+  // Populate pairs-with select
+  populatePairsSelect();
+
+  // Build UI elements
+  buildTagChips();
+  buildRadioGroup('opacity', OPACITY_OPTIONS);
+  buildRadioGroup('heightCoverage', HEIGHT_OPTIONS);
+
+  // Apply initial filter
+  applyFilter();
+  loadAsset(0);
+}
+
+function populatePairsSelect() {
+  const select = document.getElementById('pairsWith');
+  select.innerHTML = '';
+  for (const asset of assets) {
+    const opt = document.createElement('option');
+    opt.value = asset.id;
+    opt.textContent = `${asset.displayName} (${asset.role})`;
+    select.appendChild(opt);
+  }
+}
+
+function buildTagChips() {
+  const container = document.getElementById('surfaceTags');
+  container.innerHTML = '';
+  for (const tag of SURFACE_TAGS) {
+    const chip = document.createElement('span');
+    chip.className = 'tag-chip';
+    chip.textContent = tag;
+    chip.dataset.tag = tag;
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+    });
+    container.appendChild(chip);
+  }
+}
+
+function buildRadioGroup(containerId, options) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  for (const opt of options) {
+    const chip = document.createElement('span');
+    chip.className = 'radio-chip';
+    chip.textContent = opt;
+    chip.dataset.value = opt;
+    chip.addEventListener('click', () => {
+      container.querySelectorAll('.radio-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.toggle('selected');
+    });
+    container.appendChild(chip);
+  }
+}
+
+// ---- Filtering ----
+
+function applyFilter() {
+  const roleFilter = document.getElementById('filterRole').value;
+  const statusFilter = document.getElementById('filterStatus').value;
+
+  filteredIndices = [];
+  for (let i = 0; i < assets.length; i++) {
+    const asset = assets[i];
+    if (roleFilter && asset.role !== roleFilter) continue;
+    if (statusFilter === 'enriched' && !enrichment[asset.id]) continue;
+    if (statusFilter === 'pending' && enrichment[asset.id]) continue;
+    filteredIndices.push(i);
+  }
+
+  // Reset to first if current is out of range
+  if (currentFilteredIdx >= filteredIndices.length) {
+    currentFilteredIdx = 0;
+  }
+
+  updateProgress();
+}
+
+document.getElementById('filterRole').addEventListener('change', () => {
+  saveCurrentAsset();
+  applyFilter();
+  loadAsset(currentFilteredIdx);
+});
+
+document.getElementById('filterStatus').addEventListener('change', () => {
+  saveCurrentAsset();
+  applyFilter();
+  loadAsset(currentFilteredIdx);
+});
+
+// ---- Asset Loading ----
+
+function loadAsset(filteredIdx) {
+  if (filteredIndices.length === 0) {
+    document.getElementById('assetName').textContent = 'No assets match filter';
+    return;
+  }
+
+  currentFilteredIdx = Math.max(0, Math.min(filteredIdx, filteredIndices.length - 1));
+  const assetIdx = filteredIndices[currentFilteredIdx];
+  const asset = assets[assetIdx];
+
+  document.getElementById('assetName').textContent = `${asset.displayName} (${asset.id})`;
+  updateProgress();
+  updateInfoGrid(asset);
+  updateStatusBadge(asset.id);
+  loadFormData(asset.id);
+  loadGLB(asset);
+
+  // Update nav buttons
+  document.getElementById('prevBtn').disabled = currentFilteredIdx <= 0;
+  document.getElementById('nextBtn').disabled = currentFilteredIdx >= filteredIndices.length - 1;
+}
+
+function updateInfoGrid(asset) {
+  const grid = document.getElementById('infoGrid');
+  const items = [
+    ['Role', asset.role],
+    ['Tags', asset.tags.join(', ')],
+    ['Footprint', asset.footprint.join(' x ')],
+    ['Bounds', asset.normalizedBounds.join(' x ')],
+    ['Walkable', asset.walkable ? 'Yes' : 'No'],
+    ['Blocks Movement', asset.blocksMovement ? 'Yes' : 'No'],
+    ['Structural', asset.isStructural ? 'Yes' : 'No'],
+    ['Pivot', asset.pivot],
+  ];
+  grid.innerHTML = items.map(([label, value]) =>
+    `<div class="info-item"><span class="label">${label}:</span> <span class="value">${value}</span></div>`
+  ).join('');
+}
+
+function updateStatusBadge(id) {
+  const badge = document.getElementById('statusBadge');
+  if (enrichment[id]) {
+    badge.className = 'status-badge enriched';
+    badge.textContent = 'Enriched';
+  } else {
+    badge.className = 'status-badge pending';
+    badge.textContent = 'Pending';
+  }
+}
+
+function updateProgress() {
+  const totalEnriched = Object.keys(enrichment).length;
+  const total = assets.length;
+  const filteredEnriched = filteredIndices.filter(i => enrichment[assets[i].id]).length;
+  const prog = document.getElementById('progress');
+  prog.innerHTML = `<span class="done">${filteredEnriched}</span>/${filteredIndices.length} shown | <span class="done">${totalEnriched}</span>/${total} total`;
+}
+
+// ---- GLB Loading ----
+
+function loadGLB(asset) {
+  // Remove old model
+  if (currentModel) {
+    scene.remove(currentModel);
+    currentModel.traverse(child => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) {
+        if (Array.isArray(child.material)) {
+          child.material.forEach(m => m.dispose());
+        } else {
+          child.material.dispose();
+        }
+      }
+    });
+    currentModel = null;
+  }
+
+  // Derive GLB filename from sourcePath
+  const fbxName = asset.sourcePath.split('/').pop();
+  const glbName = fbxName.replace(/\.fbx$/i, '.glb');
+
+  loader.load(`/glb/${glbName}`, (gltf) => {
+    currentModel = gltf.scene;
+    scene.add(currentModel);
+
+    // Compute bounding box and center camera
+    const box = new THREE.Box3().setFromObject(currentModel);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+
+    controls.target.copy(center);
+    const dist = maxDim * 1.8;
+    camera.position.set(
+      center.x + dist * 0.7,
+      center.y + dist * 0.5,
+      center.z + dist * 0.7
+    );
+    controls.update();
+
+    document.getElementById('viewportInfo').textContent =
+      `Size: ${size.x.toFixed(1)} x ${size.y.toFixed(1)} x ${size.z.toFixed(1)}m | Scroll to zoom. Drag to orbit. Right-drag to pan.`;
+  }, undefined, (err) => {
+    console.error('Failed to load GLB:', glbName, err);
+    document.getElementById('viewportInfo').textContent = `Error loading ${glbName}`;
+  });
+}
+
+// ---- Form Data ----
+
+function loadFormData(id) {
+  const data = enrichment[id] || {};
+
+  document.getElementById('visualDescription').value = data.visualDescription || '';
+  document.getElementById('bestUsedFor').value = data.bestUsedFor || '';
+  document.getElementById('gotchas').value = data.gotchas || '';
+
+  // Surface tags
+  const tags = data.surfaceTags || [];
+  document.querySelectorAll('#surfaceTags .tag-chip').forEach(chip => {
+    chip.classList.toggle('selected', tags.includes(chip.dataset.tag));
+  });
+
+  // Opacity
+  const opacity = data.opacity || '';
+  document.querySelectorAll('#opacity .radio-chip').forEach(chip => {
+    chip.classList.toggle('selected', chip.dataset.value === opacity);
+  });
+
+  // Height coverage
+  const height = data.heightCoverage || '';
+  document.querySelectorAll('#heightCoverage .radio-chip').forEach(chip => {
+    chip.classList.toggle('selected', chip.dataset.value === height);
+  });
+
+  // Pairs with
+  const pairs = data.pairsWith || [];
+  const pairsSelect = document.getElementById('pairsWith');
+  for (const opt of pairsSelect.options) {
+    opt.selected = pairs.includes(opt.value);
+  }
+}
+
+function getFormData() {
+  const surfaceTags = [];
+  document.querySelectorAll('#surfaceTags .tag-chip.selected').forEach(chip => {
+    surfaceTags.push(chip.dataset.tag);
+  });
+
+  const opacityChip = document.querySelector('#opacity .radio-chip.selected');
+  const heightChip = document.querySelector('#heightCoverage .radio-chip.selected');
+
+  const pairsSelect = document.getElementById('pairsWith');
+  const pairsWith = [];
+  for (const opt of pairsSelect.selectedOptions) {
+    pairsWith.push(opt.value);
+  }
+
+  return {
+    visualDescription: document.getElementById('visualDescription').value.trim(),
+    surfaceTags,
+    opacity: opacityChip ? opacityChip.dataset.value : '',
+    heightCoverage: heightChip ? heightChip.dataset.value : '',
+    bestUsedFor: document.getElementById('bestUsedFor').value.trim(),
+    pairsWith,
+    gotchas: document.getElementById('gotchas').value.trim(),
+  };
+}
+
+// ---- Save ----
+
+async function saveCurrentAsset() {
+  if (filteredIndices.length === 0) return;
+
+  const assetIdx = filteredIndices[currentFilteredIdx];
+  const asset = assets[assetIdx];
+  const formData = getFormData();
+
+  // Only save if at least description is filled
+  const hasData = formData.visualDescription || formData.surfaceTags.length > 0 ||
+    formData.opacity || formData.heightCoverage || formData.bestUsedFor ||
+    formData.pairsWith.length > 0 || formData.gotchas;
+
+  if (!hasData) return;
+
+  try {
+    await fetch(`/api/enrichment/${encodeURIComponent(asset.id)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    enrichment[asset.id] = { ...formData, id: asset.id };
+    updateStatusBadge(asset.id);
+    updateProgress();
+    showSaveIndicator();
+  } catch (err) {
+    console.error('Save failed:', err);
+  }
+}
+
+function showSaveIndicator() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+// ---- Screenshot ----
+
+async function captureScreenshot() {
+  if (filteredIndices.length === 0) return;
+
+  const assetIdx = filteredIndices[currentFilteredIdx];
+  const asset = assets[assetIdx];
+
+  // Render one frame
+  renderer.render(scene, camera);
+  const dataUrl = renderer.domElement.toDataURL('image/png');
+  const blob = await (await fetch(dataUrl)).blob();
+
+  try {
+    await fetch(`/api/screenshot/${encodeURIComponent(asset.id)}`, {
+      method: 'POST',
+      body: blob,
+    });
+    showSaveIndicator();
+  } catch (err) {
+    console.error('Screenshot save failed:', err);
+  }
+}
+
+// ---- Navigation ----
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  saveCurrentAsset();
+  loadAsset(currentFilteredIdx - 1);
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  saveCurrentAsset();
+  loadAsset(currentFilteredIdx + 1);
+});
+
+// ---- Keyboard Shortcuts ----
+
+document.addEventListener('keydown', (e) => {
+  // Don't intercept when typing in text fields
+  const tag = e.target.tagName;
+  if (tag === 'TEXTAREA' || tag === 'INPUT') {
+    // But allow Ctrl+S in text fields
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      saveCurrentAsset();
+    }
+    return;
+  }
+
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    saveCurrentAsset();
+    loadAsset(currentFilteredIdx - 1);
+  } else if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    saveCurrentAsset();
+    loadAsset(currentFilteredIdx + 1);
+  } else if (e.ctrlKey && e.key === 's') {
+    e.preventDefault();
+    saveCurrentAsset();
+  } else if (e.key === 'p' || e.key === 'P') {
+    captureScreenshot();
+  }
+});
+
+document.getElementById('screenshotBtn').addEventListener('click', captureScreenshot);
+
+// ---- Auto-save on blur (switching away from page) ----
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) saveCurrentAsset();
+});
+
+// ---- Init ----
+init();
+</script>
+</body>
+</html>

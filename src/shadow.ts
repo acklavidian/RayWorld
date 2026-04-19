@@ -71,15 +71,20 @@ void main() {
     float hemi         = dot(normal, vec3(0.0, 1.0, 0.0)) * 0.5 + 0.5;
     vec3 ambientLight  = mix(groundAmbient, skyAmbient, hemi);
 
+    // Floor detection: upward-facing surfaces get a polished/shiny look
+    float isFloor = smoothstep(0.8, 0.95, dot(normal, vec3(0.0, 1.0, 0.0)));
+    float shininess = mix(32.0, 256.0, isFloor);
+    float specStrength = mix(0.3, 1.2, isFloor);
+
     // Blinn-Phong specular for directional light
     float specCo = 0.0;
     if (NdotL > 0.0) {
         vec3 halfV = normalize(l + viewD);
-        specCo = pow(max(dot(normal, halfV), 0.0), 32.0);
+        specCo = pow(max(dot(normal, halfV), 0.0), shininess);
     }
 
     // Direct (sun) light contribution — modulated by shadow
-    vec3 directLight = lightColor.rgb * NdotL + vec3(specCo * 0.3);
+    vec3 directLight = lightColor.rgb * NdotL + vec3(specCo * specStrength);
 
     // Transform fragment to light clip space, then to [0,1] UV range
     vec4 lsPos = lightVP * vec4(fragPosition, 1.0);
@@ -110,11 +115,13 @@ void main() {
             float t = 1.0 - dist / range;
             float atten = t * t;
             pointLighting += pointLightColor[i] * plNdotL * atten;
-            // Point light specular
+            // Point light specular (boosted on floors for polished look)
             if (plNdotL > 0.0) {
                 vec3 plHalf = normalize(plDir + viewD);
-                float plSpec = pow(max(dot(normal, plHalf), 0.0), 48.0);
-                pointLighting += pointLightColor[i] * plSpec * atten * 0.4;
+                float plShininess = mix(48.0, 256.0, isFloor);
+                float plSpecStr = mix(0.4, 1.5, isFloor);
+                float plSpec = pow(max(dot(normal, plHalf), 0.0), plShininess);
+                pointLighting += pointLightColor[i] * plSpec * atten * plSpecStr;
             }
         }
     }

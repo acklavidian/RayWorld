@@ -29,7 +29,8 @@ src/
   physics.ts             — PhysicsWorld: Jolt WASM wrapper (character controller, rigid bodies, raycasts)
   player.ts              — PlayerState + first-person controller (WASD + mouse look + jump)
   scene.ts               — GLB JSON parsing, raylib mesh range resolution, material setup
-  shadow.ts              — Shadow map: depth FBO + Blinn-Phong + 3x3 PCF shader
+  shadow.ts              — Shadow map + scene shader (Blinn-Phong, 3x3 PCF, up to 16 point lights)
+  skybox.ts              — Procedural star/nebula skybox (3D cube shader, drawn inside BeginMode3D)
   remote_player.ts       — Remote player capsule rendering + walk animation + lerp
   input.ts               — Action enum + rebindable key bindings + mouse delta
   navmesh.ts             — Navigation mesh utilities
@@ -63,7 +64,7 @@ tools/
     generate_library.ts  — Generate asset_library.json
     validate_assets.ts   — Validate asset library
     validate_map.ts      — Validate map JSON against library
-    types.ts             — Shared types (MapFile, AssetLibraryEntry, etc.)
+    types.ts             — Shared types (MapFile, MapLight, MapPlacement, AssetLibraryEntry, etc.)
   rayworld_blender.py    — Blender addon: RayWorld metadata side panel
   export_scene.py        — One-click Blender export + validate script
 data/
@@ -97,6 +98,15 @@ Scene hot-reload replaces the entire `PhysicsWorld` + `SceneState` + re-populate
 
 ### Jolt BroadPhaseLayer Casts
 `physics.ts` uses `as any` casts on lines 91-92 for `MapObjectToBroadPhaseLayer` calls. This is because the Jolt WASM bindings have imprecise TypeScript types for `BroadPhaseLayer`. These casts are intentional.
+
+### Ceiling Collision Recovery
+`physics.ts` `stepCharacter()` detects when the character had upward velocity but barely moved (ceiling hit) and forces the velocity to -3 m/s downward. Without this, Jolt's `CharacterVirtual` can get permanently embedded in ceiling mesh geometry, especially near stairwells.
+
+### FFI Matrix Bug
+`RL.MatrixMultiply` / `RL.QuaternionToMatrix` via Deno FFI return wrong results for dynamic transforms. All matrices must be built manually in JS. See `getDynamicTransform` in `physics.ts` and matrix helpers in `map_loader.ts`.
+
+### Skybox
+The skybox is a 3D cube (`GenMeshCube`) drawn inside `BeginMode3D`, centered on the camera via a scale+translate transform matrix. The vertex shader negates positions (inside-out cube) and uses `.xyww` to force depth=1.0. Must be drawn BEFORE scene geometry. Do NOT draw it as a 2D fullscreen quad (causes parallax movement).
 
 ## Scene Metadata Fields
 Objects in the GLB use Blender custom properties (glTF `extras`):
@@ -140,6 +150,23 @@ deno task map:validate   # Validate a map file
 - Wall rotation: `0` blocks X passage (E/W walls), `90` blocks Z passage (N/S walls)
 - Ceiling flag: `"ceiling": true` on placements skips physics colliders and shadow depth pass
 - GameSession supports both legacy `scene.glb` mode and modular map mode via optional `mapPath`
+
+### Point Lights
+- Map JSON has optional `lights` array: `{position: [x,y,z], color: [r,g,b], range: number}`
+- Position is world-space (not grid). Color is HDR (0-2+). Range is falloff distance in metres.
+- `setPointLights(shadow, lights)` uploads to shader after map load. Max 16 lights.
+- Scene shader: point lights contribute diffuse + Blinn-Phong specular with quadratic falloff
+- Sun (directional) light is dimmed to 15% — point lights dominate indoor scenes
+- Small glowing spheres are drawn at light positions as visual markers
+
+### Map Building Rules
+- **Floors**: only assets with `blocksMovement` or `isStructural` get physics colliders
+- **Ceilings**: use `"ceiling": true` ONLY for non-walkable ceiling tiles, never for walkable floors
+- **Stairwells**: leave a void (no floor tile) directly above the stair at Y+1. Adjacent tiles keep physics. The stair module provides the top walking surface.
+- **Barriers**: `sm_rambard` has NO physics (`blocksMovement: false`). Use `sm_wallpanel_low_solid` for low walls that need collision.
+- **Doors**: `sm_doorframe_double` fits the cell width better than `sm_doorframe_single` (no gap)
+- **Windows**: `sm_wallpanel_large_window` on perimeter walls allows seeing the skybox
+- **Light placement**: Y=3.6 for ground floor ceilings (just below Y=4), Y=7.6 for second floor. Range 8-12 gives good coverage. Use different colors per room for atmosphere.
 
 ## Common Tasks
 
