@@ -1,5 +1,5 @@
 import * as RL from "raylib";
-import { getMesh, extractMeshData, makeSceneMaterials, transformVertsByMatrix } from "./scene.ts";
+import { getMesh, extractMeshData, makeSceneMaterials, transformVertsByMatrix, transformPoint } from "./scene.ts";
 import { PhysicsWorld } from "./physics.ts";
 import type { ShadowMap } from "./shadow.ts";
 import type { AssetLibrary, AssetLibraryEntry, MapFile, MapLight } from "../tools/modular-assets/types.ts";
@@ -14,6 +14,7 @@ export interface LoadedAssetModel {
   meshCount: number;
   mats: RL.Material[];  // per-mesh, with shadow shader applied
   fitScale: number;     // uniform scale to fit model XZ footprint into one cell
+  localBounds: { minX: number; maxX: number; minY: number; maxY: number; minZ: number; maxZ: number };
 }
 
 export interface PlacedInstance {
@@ -159,14 +160,18 @@ export function loadModularMap(
     const fitScale = (rawFitScale >= 1.5 && rawFitScale <= 2.5) ? rawFitScale : 1.0;
     if (fitScale !== 1.0) console.log(`[map]   ${id}: fitScale=${fitScale.toFixed(3)}`);
 
+    const localBounds = { minX, maxX, minY, maxY, minZ, maxZ };
     const mats = makeSceneMaterials(model, shadow.sceneShader);
     idToModelIndex.set(id, models.length);
-    models.push({ id, model, meshCount: model.meshCount, mats, fitScale });
+    models.push({ id, model, meshCount: model.meshCount, mats, fitScale, localBounds });
   }
   console.log(`[map] loaded ${models.length} unique models`);
 
   // 5. Create placed instances with transforms + physics colliders
   const instances: PlacedInstance[] = [];
+  // Roles where an AABB box is a good collision proxy (flat/rectangular shapes).
+  // Stairs, slopes, and doorframes need triangle mesh for accurate geometry.
+  const boxRoles = new Set(["floor", "wall", "wall_panel", "corner", "support"]);
 
   for (const p of map.placements) {
     const mIdx = idToModelIndex.get(p.assetId);
@@ -200,11 +205,28 @@ export function loadModularMap(
     // Skip physics only for explicitly marked ceiling placements
     const skipPhysics = p.ceiling === true;
     if ((entry.blocksMovement || entry.isStructural) && !skipPhysics) {
-      for (let i = 0; i < asset.meshCount; i++) {
-        const d = extractMeshData(asset.model, i);
-        if (d) {
-          const worldVerts = transformVertsByMatrix(d.verts, transform);
-          physics.addStatic(worldVerts, d.indices, d.triCount);
+      if (boxRoles.has(entry.role)) {
+        // Transform the 8 corners of the model's local AABB to world space,
+        // then pass to addStaticBox — avoids feeding thousands of visual triangles into Jolt.
+        const b = asset.localBounds;
+        const corners = new Float32Array(8 * 3);
+        let ci = 0;
+        for (const x of [b.minX, b.maxX]) {
+          for (const y of [b.minY, b.maxY]) {
+            for (const z of [b.minZ, b.maxZ]) {
+              const [wx2, wy2, wz2] = transformPoint(x, y, z, transform);
+              corners[ci++] = wx2; corners[ci++] = wy2; corners[ci++] = wz2;
+            }
+          }
+        }
+        physics.addStaticBox(corners);
+      } else {
+        for (let i = 0; i < asset.meshCount; i++) {
+          const d = extractMeshData(asset.model, i);
+          if (d) {
+            const worldVerts = transformVertsByMatrix(d.verts, transform);
+            physics.addStatic(worldVerts, d.indices, d.triCount);
+          }
         }
       }
     }
