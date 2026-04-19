@@ -17,6 +17,7 @@ import { GameplayAPIImpl } from "./gameplay_api.ts";
 import { registerAllPrefabs } from "./prefabs/registry.ts";
 import { MapState, loadModularMap, unloadMap } from "./map_loader.ts";
 import { Skybox, createSkybox, drawSkybox, destroySkybox } from "./skybox.ts";
+import { saveSettings } from "./settings_storage.ts";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -284,7 +285,11 @@ export class GameSession {
 
     // Pause menu overlay
     if (this.isPaused && this.pauseMenu) {
+      const prevView = this.pauseMenu.view;
       const result = drawPauseMenu(this.pauseMenu);
+      if (prevView === "settings" && this.pauseMenu.view !== "settings") {
+        saveSettings(this.settings);
+      }
       if (result?.action === "resume") {
         this.isPaused = false; this.pauseMenu = null; this.grabName = null;
         RL.DisableCursor();
@@ -292,13 +297,19 @@ export class GameSession {
         this.isPaused = false; this.pauseMenu = null; this.grabName = null;
         RL.EnableCursor();
         RL.EndDrawing();
-        if (this.settings.fullscreen !== prevFs) this._applyFullscreen(this.settings.fullscreen);
+        if (this.settings.fullscreen !== prevFs) {
+          this._applyFullscreen(this.settings.fullscreen);
+          saveSettings(this.settings);
+        }
         return { action: "exit_to_menu" };
       }
     }
 
     RL.EndDrawing();
-    if (this.settings.fullscreen !== prevFs) this._applyFullscreen(this.settings.fullscreen);
+    if (this.settings.fullscreen !== prevFs) {
+      this._applyFullscreen(this.settings.fullscreen);
+      saveSettings(this.settings);
+    }
     return { action: "continue" };
   }
 

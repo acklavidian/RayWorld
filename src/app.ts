@@ -1,6 +1,7 @@
 import * as RL from "raylib";
 import { ShadowMap } from "./shadow.ts";
-import { createPauseSettings, PauseSettings } from "./ui/pause_menu.ts";
+import { PauseSettings } from "./ui/pause_menu.ts";
+import { loadSettings, saveSettings } from "./settings_storage.ts";
 import { drawMainMenu } from "./ui/menu.ts";
 import { createBrowserState, drawBrowser, BrowserState } from "./ui/browser.ts";
 import { GAME_PORT } from "./net/protocol.ts";
@@ -27,7 +28,12 @@ export class App {
 
   constructor(shadow: ShadowMap) {
     this.shadow   = shadow;
-    this.settings = createPauseSettings();
+    this.settings = loadSettings();
+    if (this.settings.fullscreen) {
+      const m = RL.GetCurrentMonitor();
+      RL.SetWindowSize(RL.GetMonitorWidth(m), RL.GetMonitorHeight(m));
+      RL.ToggleFullscreen();
+    }
   }
 
   // ── Main frame dispatch ──────────────────────────────────────────────────────
@@ -157,5 +163,6 @@ export class App {
   destroy(): void {
     this.session?.destroy();
     this.session = null;
+    saveSettings(this.settings);
   }
 }
