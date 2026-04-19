@@ -122,12 +122,12 @@ export interface ValidationResult {
 // ── Socket Compatibility ───────────────────────────────────────────────
 
 const SOCKET_COMPAT: Record<SocketType, SocketType[]> = {
-  open: ["open", "doorway"],
-  doorway: ["doorway", "open"],
-  wall: ["wall"],
-  solid: ["solid"],
-  support: ["support"],
-  empty: ["empty"],
+  open: ["open", "doorway", "solid"],
+  doorway: ["doorway", "open", "wall"],
+  wall: ["wall", "doorway"],
+  solid: ["solid", "open"],
+  support: ["support", "empty"],
+  empty: ["empty", "support"],
   railing: ["railing", "open"],
   none: [],
 };

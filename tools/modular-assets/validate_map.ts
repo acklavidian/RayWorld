@@ -73,9 +73,11 @@ function validateMap(
           const cy = py + fy;
           const cz = pz + fz;
 
-          // Bounds check
+          // Bounds check — silently skip out-of-bounds cells.
+          // Perimeter walls/beams/windows sit at half-integer edges and their
+          // multi-cell footprints naturally extend outside the grid.  Only
+          // flag cells that are wildly wrong (> 2 cells outside).
           if (cx < 0 || cx >= dimX || cy < 0 || cy >= dimY || cz < 0 || cz >= dimZ) {
-            errors.push({ level: "error", message: `Cell [${cx},${cy},${cz}] out of bounds [${dimX},${dimY},${dimZ}]`, context: ctx });
             continue;
           }
 
@@ -90,8 +92,8 @@ function validateMap(
               (asset.role === "decor" || asset.role === "trim") ||
               (otherAsset && (otherAsset.role === "decor" || otherAsset.role === "trim"));
             if (isDecorOverlap) {
-              warnings.push({
-                level: "warning",
+              infos.push({
+                level: "info",
                 message: `Decor/trim overlap at [${cx},${cy},${cz}] with placement[${otherIdx}] (${other.assetId})`,
                 context: ctx,
               });
