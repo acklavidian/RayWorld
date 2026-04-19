@@ -11,7 +11,7 @@ RL.SetExitKey(RL.KeyboardKey.NULL);
 // ─── Shadow map (persistent across sessions) ────────────────────────────────
 
 const lightPos    = new RL.Vector3(60, 80, 50);
-const lightTarget = new RL.Vector3(16, 0, 8);
+const lightTarget = new RL.Vector3(16, 0, 12);
 const shadow      = createShadowMap(lightPos, lightTarget, 2048, 60.0);
 
 // ─── App ─────────────────────────────────────────────────────────────────────

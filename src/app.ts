@@ -133,7 +133,7 @@ export class App {
 
   private async _startTestMap(): Promise<void> {
     this.session = await GameSession.create(
-      this.shadow, this.settings, "data/modular/example_test_corridor_map.json",
+      this.shadow, this.settings, "data/modular/research_station_alpha.json",
     );
     // No networking for test map — go straight to playing
     this._enterPlaying();

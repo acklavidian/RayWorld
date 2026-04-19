@@ -234,15 +234,15 @@ export class GameSession {
       }
     }
 
-    // Point light markers (small glowing spheres)
+    // Point light markers (wireframe spheres — avoids per-frame mesh gen crash)
     if (this.mapState) {
       for (const pl of this.mapState.lights) {
         const r = Math.min(pl.color[0] * 255, 255) | 0;
         const g = Math.min(pl.color[1] * 255, 255) | 0;
         const b = Math.min(pl.color[2] * 255, 255) | 0;
-        RL.DrawSphere(
+        RL.DrawSphereWires(
           new RL.Vector3(pl.position[0], pl.position[1], pl.position[2]),
-          0.15, new RL.Color(r, g, b, 255),
+          0.15, 4, 4, new RL.Color(r, g, b, 180),
         );
       }
     }
