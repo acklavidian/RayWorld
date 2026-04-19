@@ -1,0 +1,7 @@
+{
+  "sensitivity": 1,
+  "fov": 70,
+  "invertY": false,
+  "fullscreen": true,
+  "showColliderWireframes": false
+}
