@@ -60,6 +60,10 @@ export class GameSession {
   grabName: string | null = null;
   grabDist = 0;
 
+  // Fullscreen
+  private _windowedW = 1280;
+  private _windowedH = 720;
+
   // Hot-reload
   sceneReloadPending = false;
   private _reloadTimer: number | undefined;
@@ -142,6 +146,14 @@ export class GameSession {
   // ── Frame update ─────────────────────────────────────────────────────────────
 
   update(dt: number): SessionResult {
+    const prevFs = this.settings.fullscreen;
+
+    // Alt+Enter toggles fullscreen (flag only — applied after EndDrawing)
+    const altDown = RL.IsKeyDown(RL.KeyboardKey.LEFT_ALT) || RL.IsKeyDown(RL.KeyboardKey.RIGHT_ALT);
+    if (altDown && RL.IsKeyPressed(RL.KeyboardKey.ENTER)) {
+      this.settings.fullscreen = !this.settings.fullscreen;
+    }
+
     // Escape toggles pause
     if (RL.IsKeyPressed(RL.KeyboardKey.ESCAPE)) {
       this.isPaused = !this.isPaused;
@@ -280,11 +292,13 @@ export class GameSession {
         this.isPaused = false; this.pauseMenu = null; this.grabName = null;
         RL.EnableCursor();
         RL.EndDrawing();
+        if (this.settings.fullscreen !== prevFs) this._applyFullscreen(this.settings.fullscreen);
         return { action: "exit_to_menu" };
       }
     }
 
     RL.EndDrawing();
+    if (this.settings.fullscreen !== prevFs) this._applyFullscreen(this.settings.fullscreen);
     return { action: "continue" };
   }
 
@@ -348,6 +362,21 @@ export class GameSession {
       player:  this.player,
       api:     this.api,
     };
+  }
+
+  // ── Fullscreen ───────────────────────────────────────────────────────────────
+
+  private _applyFullscreen(enable: boolean): void {
+    if (enable) {
+      this._windowedW = RL.GetScreenWidth();
+      this._windowedH = RL.GetScreenHeight();
+      const m = RL.GetCurrentMonitor();
+      RL.SetWindowSize(RL.GetMonitorWidth(m), RL.GetMonitorHeight(m));
+      RL.ToggleFullscreen();
+    } else {
+      RL.ToggleFullscreen();
+      RL.SetWindowSize(this._windowedW, this._windowedH);
+    }
   }
 
   // ── Cleanup ──────────────────────────────────────────────────────────────────

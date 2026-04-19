@@ -8,11 +8,12 @@ export interface PauseSettings {
   sensitivity:          number;  // multiplier applied to LOOK_SENSITIVITY (default 1.0)
   fov:                  number;  // degrees (default 70)
   invertY:              boolean;
+  fullscreen:           boolean;
   showColliderWireframes: boolean; // debug: draw physics collider outlines
 }
 
 export function createPauseSettings(): PauseSettings {
-  return { sensitivity: 1.0, fov: 70, invertY: false, showColliderWireframes: false };
+  return { sensitivity: 1.0, fov: 70, invertY: false, fullscreen: false, showColliderWireframes: false };
 }
 
 // ─── State ────────────────────────────────────────────────────────────────────
@@ -95,7 +96,7 @@ function _drawSettings(state: PauseMenuState): void {
   const sh = RL.GetScreenHeight();
   const s  = state.settings;
 
-  const pw = 420, ph = 356;
+  const pw = 420, ph = 408;
   const px = ((sw - pw) / 2) | 0;
   const py = ((sh - ph) / 2) | 0;
   Panel({ x: px, y: py, w: pw, h: ph });
@@ -132,6 +133,11 @@ function _drawSettings(state: PauseMenuState): void {
 
   // ── Physics Collider Wireframes ────────────────────────────────────────────
   s.showColliderWireframes = Toggle("Show Collider Wireframes", s.showColliderWireframes,
+    { x: sliderX, y: cy, w: sliderW, h: 38 });
+  cy += 52;
+
+  // ── Fullscreen ─────────────────────────────────────────────────────────────
+  s.fullscreen = Toggle("Fullscreen  (Alt+Enter)", s.fullscreen,
     { x: sliderX, y: cy, w: sliderW, h: 38 });
   cy += 52;
 
