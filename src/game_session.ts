@@ -1,7 +1,7 @@
 import * as RL from "raylib";
 import { PhysicsWorld } from "./physics.ts";
 import { createPlayerState, updatePlayer, PlayerState, EYE_HEIGHT } from "./player.ts";
-import { ShadowMap, updatePerFrame, renderDepthPass, renderDepthPassMap } from "./shadow.ts";
+import { ShadowMap, updatePerFrame, renderDepthPass, renderDepthPassMap, setPointLights } from "./shadow.ts";
 import { GameServer } from "./net/server.ts";
 import { GameClient } from "./net/client.ts";
 import { GAME_PORT } from "./net/protocol.ts";
@@ -16,6 +16,7 @@ import { parseNodeMetadata } from "./metadata.ts";
 import { GameplayAPIImpl } from "./gameplay_api.ts";
 import { registerAllPrefabs } from "./prefabs/registry.ts";
 import { MapState, loadModularMap, unloadMap } from "./map_loader.ts";
+import { Skybox, createSkybox, drawSkybox, destroySkybox } from "./skybox.ts";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -39,6 +40,7 @@ export class GameSession {
   camera:    RL.Camera3D;
   player:    PlayerState;
   shadow:    ShadowMap;
+  skybox:    Skybox;
   settings:  PauseSettings;
   world:     WorldRegistry;
   api:       GameplayAPIImpl;
@@ -75,6 +77,7 @@ export class GameSession {
     this.physics  = physics;
     this.ss       = ss;
     this.shadow   = shadow;
+    this.skybox   = createSkybox();
     this.settings = settings;
     this.world    = world;
     this.camera   = camera;
@@ -106,6 +109,10 @@ export class GameSession {
         fovy:       settings.fov,
         projection: RL.CameraProjection.PERSPECTIVE,
       });
+      // Upload point lights to shader
+      if (mapState.lights.length > 0) {
+        setPointLights(shadow, mapState.lights);
+      }
       return new GameSession(physics, null, shadow, settings, world, camera, mapState);
     }
 
@@ -205,8 +212,9 @@ export class GameSession {
 
     // Main render
     RL.BeginDrawing();
-    RL.ClearBackground(new RL.Color(100, 149, 237, 255));
+    RL.ClearBackground(RL.Black);
     RL.BeginMode3D(this.camera);
+    drawSkybox(this.skybox, this.camera);
 
     // Scene geometry
     if (this.mapState) {
@@ -223,6 +231,19 @@ export class GameSession {
         if (this.ss.navRange && i >= this.ss.navRange.start && i < this.ss.navRange.start + this.ss.navRange.count) continue;
         if (this.ss.dynamicMeshIndices.has(i)) continue;
         RL.DrawMesh(getMesh(this.ss.model, i), this.ss.mats[i], this.ss.model.transform);
+      }
+    }
+
+    // Point light markers (small glowing spheres)
+    if (this.mapState) {
+      for (const pl of this.mapState.lights) {
+        const r = Math.min(pl.color[0] * 255, 255) | 0;
+        const g = Math.min(pl.color[1] * 255, 255) | 0;
+        const b = Math.min(pl.color[2] * 255, 255) | 0;
+        RL.DrawSphere(
+          new RL.Vector3(pl.position[0], pl.position[1], pl.position[2]),
+          0.15, new RL.Color(r, g, b, 255),
+        );
       }
     }
 
@@ -349,6 +370,7 @@ export class GameSession {
     this.remotePlayers.clear();
     if (this.mapState) unloadMap(this.mapState);
     if (this.ss) unloadScene(this.ss);
+    destroySkybox(this.skybox);
     this.physics.destroy();
   }
 }

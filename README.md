@@ -150,6 +150,8 @@ Maps are JSON files that define a grid-based level layout. Example:
 | `placements[].assetId` | Asset ID from the asset library |
 | `placements[].position` | Grid coordinates `[x, y, z]` — world pos = position × cellSize |
 | `placements[].rotation` | Y-axis rotation in degrees (0, 90, 180, 270) |
+| `placements[].ceiling` | `true` to skip physics colliders and shadow casting (for ceiling tiles) |
+| `placements[].notes` | Optional comment string (ignored at runtime) |
 
 ### Grid Conventions
 
@@ -157,7 +159,8 @@ Maps are JSON files that define a grid-based level layout. Example:
 - **Floor/ceiling tiles** use integer grid positions (e.g. `[0, 0, 0]`, `[1, 0, 1]`).
 - **Walls** use half-integer positions to sit on cell edges (e.g. `[-0.5, 0, 0]` for a west wall, `[0, 0, -0.5]` for a south wall).
 - **Wall rotation**: `0` = thin in X, blocks X passage (east/west walls). `90` = thin in Z, blocks Z passage (north/south walls).
-- **Ceiling tiles** are floor assets placed at Y=1. They render visually but have no physics colliders (to prevent the player getting stuck when jumping).
+- **Ceiling tiles**: set `"ceiling": true` on floor assets used as ceilings. This skips physics colliders (prevents player getting stuck when jumping) and excludes them from the shadow depth pass (prevents ceilings casting shadows into rooms below).
+- **Multi-story**: stack walls by incrementing the Y position (Y=0 for ground floor, Y=1 for second floor). Second-floor tiles at Y=1 serve as both the second floor surface and the ground floor ceiling — use `"ceiling": true` only for tiles that are purely ceilings (no player walks on them).
 
 ### Validating Maps
 

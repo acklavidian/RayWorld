@@ -44,25 +44,42 @@ uniform sampler2D texture0;     // albedo
 uniform vec4      colDiffuse;
 uniform vec3      lightDir;     // unit vector from light toward scene
 uniform vec4      lightColor;
-uniform vec4      ambient;
+uniform vec4      ambient;      // unused (kept for uniform compatibility)
 uniform vec3      viewPos;
 uniform mat4      lightVP;      // matches the depth-pass MVP exactly
 uniform sampler2D shadowMap;
 uniform int       shadowMapResolution;
+
+// Point lights
+#define MAX_POINT_LIGHTS 16
+uniform int   numPointLights;
+uniform vec3  pointLightPos[MAX_POINT_LIGHTS];
+uniform vec3  pointLightColor[MAX_POINT_LIGHTS];
+uniform float pointLightRange[MAX_POINT_LIGHTS];
+
 out vec4 finalColor;
 void main() {
     vec4 texelColor = texture(texture0, fragTexCoord);
     vec3 normal     = normalize(fragNormal);
     vec3 l          = -lightDir;
     float NdotL     = max(dot(normal, l), 0.0);
+    vec3 viewD      = normalize(viewPos - fragPosition);
 
+    // Hemisphere ambient: dim base lighting
+    vec3 skyAmbient    = vec3(0.06, 0.07, 0.10);
+    vec3 groundAmbient = vec3(0.02, 0.015, 0.015);
+    float hemi         = dot(normal, vec3(0.0, 1.0, 0.0)) * 0.5 + 0.5;
+    vec3 ambientLight  = mix(groundAmbient, skyAmbient, hemi);
+
+    // Blinn-Phong specular for directional light
     float specCo = 0.0;
     if (NdotL > 0.0) {
-        vec3 viewD = normalize(viewPos - fragPosition);
-        specCo = pow(max(dot(viewD, reflect(-l, normal)), 0.0), 16.0);
+        vec3 halfV = normalize(l + viewD);
+        specCo = pow(max(dot(normal, halfV), 0.0), 32.0);
     }
-    vec3 lit = lightColor.rgb * NdotL + vec3(specCo);
-    finalColor = texelColor * colDiffuse * vec4(lit, 1.0);
+
+    // Direct (sun) light contribution — modulated by shadow
+    vec3 directLight = lightColor.rgb * NdotL + vec3(specCo * 0.3);
 
     // Transform fragment to light clip space, then to [0,1] UV range
     vec4 lsPos = lightVP * vec4(fragPosition, 1.0);
@@ -71,17 +88,43 @@ void main() {
     float curDepth = lsPos.z;
     float bias     = max(0.0002 * (1.0 - dot(normal, l)), 0.00002) + 0.00001;
 
-    // 3×3 PCF
+    // 3x3 PCF shadow
     int  hits   = 0;
     vec2 texel  = vec2(1.0 / float(shadowMapResolution));
     for (int x = -1; x <= 1; x++)
         for (int y = -1; y <= 1; y++)
             if (curDepth - bias > texture(shadowMap, lsPos.xy + texel * vec2(x, y)).r)
                 hits++;
+    float shadowFactor = 1.0 - float(hits) / 9.0;
 
-    finalColor = mix(finalColor, vec4(0.0, 0.0, 0.0, 1.0), float(hits) / 9.0);
-    finalColor += texelColor * (ambient / 10.0) * colDiffuse;
-    finalColor  = pow(max(finalColor, vec4(0.0)), vec4(1.0 / 2.2));
+    // Point lights — local illumination with falloff
+    vec3 pointLighting = vec3(0.0);
+    for (int i = 0; i < numPointLights; i++) {
+        vec3 toLight = pointLightPos[i] - fragPosition;
+        float dist = length(toLight);
+        float range = pointLightRange[i];
+        if (dist < range) {
+            vec3 plDir = toLight / dist;
+            float plNdotL = max(dot(normal, plDir), 0.0);
+            // Smooth quadratic falloff
+            float t = 1.0 - dist / range;
+            float atten = t * t;
+            pointLighting += pointLightColor[i] * plNdotL * atten;
+            // Point light specular
+            if (plNdotL > 0.0) {
+                vec3 plHalf = normalize(plDir + viewD);
+                float plSpec = pow(max(dot(normal, plHalf), 0.0), 48.0);
+                pointLighting += pointLightColor[i] * plSpec * atten * 0.4;
+            }
+        }
+    }
+
+    // Combine: ambient always visible, sun modulated by shadow, point lights unshadowed
+    vec3 albedo = texelColor.rgb * colDiffuse.rgb;
+    vec3 color  = albedo * (ambientLight + directLight * shadowFactor * 0.15 + pointLighting);
+
+    // Gamma correction
+    finalColor = vec4(pow(max(color, vec3(0.0)), vec3(1.0 / 2.2)), texelColor.a * colDiffuse.a);
 }
 `;
 
@@ -104,6 +147,16 @@ export interface ShadowMap {
   locViewPos:  number;
   locShadow:   number;
   locShadowRes:number;
+  locNumPointLights: number;
+  locPointLightPos:   number[];  // per-element locations
+  locPointLightColor: number[];
+  locPointLightRange: number[];
+}
+
+export interface PointLight {
+  position: [number, number, number];
+  color:    [number, number, number];
+  range:    number;
 }
 
 // ─── Factory ──────────────────────────────────────────────────────────────────
@@ -178,7 +231,19 @@ export function createShadowMap(
     locViewPos:   loc("viewPos"),
     locShadow:    loc("shadowMap"),
     locShadowRes: loc("shadowMapResolution"),
+    locNumPointLights: loc("numPointLights"),
+    locPointLightPos:   [] as number[],
+    locPointLightColor: [] as number[],
+    locPointLightRange: [] as number[],
   };
+
+  // Cache per-element uniform locations for point light arrays
+  const MAX_PL = 16;
+  for (let i = 0; i < MAX_PL; i++) {
+    shadow.locPointLightPos.push(loc(`pointLightPos[${i}]`));
+    shadow.locPointLightColor.push(loc(`pointLightColor[${i}]`));
+    shadow.locPointLightRange.push(loc(`pointLightRange[${i}]`));
+  }
 
   // Set static uniforms (light direction, colour, ambient, resolution)
   const lightDir = v3norm(v3sub(lightTarget, lightPos));
@@ -194,7 +259,29 @@ export function createShadowMap(
   // Bind depth texture to the shadowMap sampler (re-bound each frame)
   RL.SetShaderValueTexture(sceneShader, shadow.locShadow, fbo.depth);
 
+  // Default: no point lights
+  RL.SetShaderValue(sceneShader, shadow.locNumPointLights, i32(0), RL.ShaderUniformDataType.INT);
+
   return shadow;
+}
+
+/**
+ * Upload point light data to the scene shader.  Call once after loading a map
+ * (or whenever lights change).
+ */
+export function setPointLights(shadow: ShadowMap, lights: PointLight[]): void {
+  const count = Math.min(lights.length, 16);
+  RL.SetShaderValue(shadow.sceneShader, shadow.locNumPointLights,
+    i32(count), RL.ShaderUniformDataType.INT);
+  for (let i = 0; i < count; i++) {
+    const pl = lights[i];
+    RL.SetShaderValue(shadow.sceneShader, shadow.locPointLightPos[i],
+      f32(pl.position[0], pl.position[1], pl.position[2]), RL.ShaderUniformDataType.VEC3);
+    RL.SetShaderValue(shadow.sceneShader, shadow.locPointLightColor[i],
+      f32(pl.color[0], pl.color[1], pl.color[2]), RL.ShaderUniformDataType.VEC3);
+    RL.SetShaderValue(shadow.sceneShader, shadow.locPointLightRange[i],
+      f32(pl.range), RL.ShaderUniformDataType.FLOAT);
+  }
 }
 
 // ─── Per-frame ────────────────────────────────────────────────────────────────
@@ -245,13 +332,14 @@ export function renderDepthPass(
 export function renderDepthPassMap(
   shadow:    ShadowMap,
   models:    { model: RL.Model; meshCount: number }[],
-  instances: { modelIndex: number; transform: RL.Matrix }[],
+  instances: { modelIndex: number; transform: RL.Matrix; isCeiling: boolean }[],
 ): void {
   RL.BeginTextureMode(shadow.fbo);
   RL.ClearBackground(RL.White);
   RL.BeginMode3D(shadow.lightCam);
 
   for (const inst of instances) {
+    if (inst.isCeiling) continue; // ceiling tiles must not cast shadows into rooms
     const m = models[inst.modelIndex];
     for (let i = 0; i < m.meshCount; i++) {
       RL.DrawMesh(getMesh(m.model, i), shadow.depthMat, inst.transform);

@@ -2,7 +2,7 @@ import * as RL from "raylib";
 import { getMesh, extractMeshData, makeSceneMaterials, transformVertsByMatrix } from "./scene.ts";
 import { PhysicsWorld } from "./physics.ts";
 import type { ShadowMap } from "./shadow.ts";
-import type { AssetLibrary, AssetLibraryEntry, MapFile } from "../tools/modular-assets/types.ts";
+import type { AssetLibrary, AssetLibraryEntry, MapFile, MapLight } from "../tools/modular-assets/types.ts";
 
 const DEG2RAD = Math.PI / 180;
 
@@ -19,11 +19,13 @@ export interface LoadedAssetModel {
 export interface PlacedInstance {
   modelIndex: number;     // index into models[]
   transform: RL.Matrix;   // pre-computed world transform (model→rotate→translate)
+  isCeiling: boolean;     // floor-role assets at Y > 0 (skip in shadow depth pass)
 }
 
 export interface MapState {
   models: LoadedAssetModel[];
   instances: PlacedInstance[];
+  lights: MapLight[];
   spawnX: number;
   spawnY: number;
   spawnZ: number;
@@ -189,12 +191,15 @@ export function loadModularMap(
     const T = matTranslate(wx, wy, wz);
     const transform = matMul(T, matMul(R, SM));
 
-    instances.push({ modelIndex: mIdx, transform });
+    // Ceiling tiles: skip shadow depth pass for any elevated floor-role tile
+    // (prevents ceilings from casting shadows into rooms below)
+    const isCeiling = entry.role === "floor" && p.position[1] > 0;
+    instances.push({ modelIndex: mIdx, transform, isCeiling });
 
     // Physics colliders for structural / movement-blocking assets
-    // Skip physics for ceiling tiles (floor-role assets placed above ground level)
-    const isCeiling = entry.role === "floor" && p.position[1] > 0;
-    if ((entry.blocksMovement || entry.isStructural) && !isCeiling) {
+    // Skip physics only for explicitly marked ceiling placements
+    const skipPhysics = p.ceiling === true;
+    if ((entry.blocksMovement || entry.isStructural) && !skipPhysics) {
       for (let i = 0; i < asset.meshCount; i++) {
         const d = extractMeshData(asset.model, i);
         if (d) {
@@ -221,7 +226,11 @@ export function loadModularMap(
   }
   console.log(`[map] spawn: (${spawnX.toFixed(2)}, ${spawnY.toFixed(2)}, ${spawnZ.toFixed(2)})`);
 
-  return { models, instances, spawnX, spawnY, spawnZ };
+  // 7. Parse lights
+  const lights: MapLight[] = map.lights ?? [];
+  if (lights.length > 0) console.log(`[map] ${lights.length} point lights`);
+
+  return { models, instances, lights, spawnX, spawnY, spawnZ };
 }
 
 // ─── Cleanup ─────────────────────────────────────────────────────────────────

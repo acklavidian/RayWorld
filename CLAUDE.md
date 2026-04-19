@@ -54,11 +54,26 @@ src/
     validate.ts          — Unified validation entry point (scene + prefabs)
     validate_scene.ts    — Standalone scene metadata validator (CLI)
     validate_prefabs.ts  — Prefab reference validator
+  map_loader.ts          — Modular map loader (JSON → models + physics + instances)
 tools/
+  modular-assets/        — Asset pipeline tools
+    convert_to_glb.py    — Blender batch: FBX→GLB (4m grid, bottom-center origin)
+    scan.ts              — Scan FBX directory → scan_manifest.json
+    classify.ts          — Classify by role → classified_assets.json
+    generate_library.ts  — Generate asset_library.json
+    validate_assets.ts   — Validate asset library
+    validate_map.ts      — Validate map JSON against library
+    types.ts             — Shared types (MapFile, AssetLibraryEntry, etc.)
   rayworld_blender.py    — Blender addon: RayWorld metadata side panel
   export_scene.py        — One-click Blender export + validate script
+data/
+  modular/
+    asset_library.json   — 60 classified sci-fi assets with metadata
+    example_test_corridor_map.json — Test map (Sci-Fi Complex)
 assets/
-  scene.glb              — The active game scene (exported from Blender)
+  scene.glb              — Legacy game scene (exported from Blender)
+  scifi_assets/fbx/      — Source FBX modular assets (gitignored)
+  scifi_assets/glb/      — Converted GLB assets (gitignored, regenerate with asset:convert)
 ```
 
 ## Critical Patterns and Gotchas
@@ -107,7 +122,24 @@ MAIN_MENU → SERVER_BROWSER → CONNECTING → PLAYING
 deno task dev            # Run game (with --watch)
 deno check main.ts       # Type-check
 deno task validate       # Validate scene metadata + prefab refs
+
+# Modular asset pipeline
+deno task asset:convert  # FBX→GLB batch conversion (requires Blender)
+deno task asset:scan     # Scan FBX directory → scan_manifest.json
+deno task asset:classify # Classify assets → classified_assets.json
+deno task asset:library  # Generate → asset_library.json
+deno task asset:validate # Validate the asset library
+deno task map:validate   # Validate a map file
 ```
+
+## Modular Map System
+- Maps are JSON files: `data/modular/*.json` — grid-based placement of modular assets
+- `src/map_loader.ts` loads maps at runtime (deduplicates models, creates physics, computes transforms)
+- Assets normalized during FBX→GLB conversion: 4m XZ extent, bottom-center origin
+- Grid convention: `cellSize [4,4,4]`, integers for tiles, half-integers for walls on cell edges
+- Wall rotation: `0` blocks X passage (E/W walls), `90` blocks Z passage (N/S walls)
+- Ceiling flag: `"ceiling": true` on placements skips physics colliders and shadow depth pass
+- GameSession supports both legacy `scene.glb` mode and modular map mode via optional `mapPath`
 
 ## Common Tasks
 
@@ -135,10 +167,12 @@ deno task validate       # Validate scene metadata + prefab refs
 
 ## Testing Checklist
 1. `deno check main.ts` — zero type errors
-2. Main menu renders, all buttons work
+2. Main menu renders, all buttons work (Host, Browse, Test Map, Exit)
 3. Host → gameplay works (WASD, mouse look, jump, grab with RMB)
 4. Pause → settings (sensitivity, FOV, invert, wireframes) → resume → exit to menu
 5. Re-host → still works (no resource leaks — check texture IDs don't climb indefinitely)
 6. Server browser → connect to remote → multiplayer sync
 7. Hot-reload: modify `scene.glb` → reloads without crash
 8. WorldRegistry count matches scene node count in logs
+9. Test Map → modular map loads, player walks through rooms, jumps without getting stuck
+10. Walls block movement, doorframes allow passage

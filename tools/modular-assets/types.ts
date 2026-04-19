@@ -84,6 +84,14 @@ export interface MapPlacement {
   position: [number, number, number];
   rotation: number;
   notes?: string;
+  ceiling?: boolean;  // true = skip physics collider (and shadow depth pass)
+}
+
+export interface MapLight {
+  position: [number, number, number];  // world-space XYZ
+  color:    [number, number, number];  // RGB, typically 0-2+ (HDR)
+  range:    number;                    // falloff distance in metres
+  notes?:   string;
 }
 
 export interface MapFile {
@@ -94,6 +102,7 @@ export interface MapFile {
     dimensions: [number, number, number];
   };
   placements: MapPlacement[];
+  lights?: MapLight[];
   spawn?: [number, number, number];  // world-space position; defaults to map center
 }
 

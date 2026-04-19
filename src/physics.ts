@@ -181,6 +181,9 @@ export class PhysicsWorld {
     if (!this._character || !this._extUpdateCfg) return;
     const J = this._J;
 
+    // Record pre-step Y for ceiling collision detection
+    const preY = this._character.GetPosition().GetY();
+
     const vel = new J.Vec3(vx, vy, vz);
     this._character.SetLinearVelocity(vel);
     J.destroy(vel);
@@ -202,6 +205,19 @@ export class PhysicsWorld {
     J.destroy(objFilter);
     J.destroy(bodyFilter);
     J.destroy(shapeFilter);
+
+    // Ceiling collision recovery: if we had upward velocity but barely moved up,
+    // the capsule hit a ceiling. Force velocity downward so the character bounces
+    // back instead of getting stuck embedded in the geometry above.
+    if (vy > 0.5) {
+      const postY = this._character.GetPosition().GetY();
+      const expectedMove = vy * dt * 0.25;  // moved less than 25% of expected
+      if (postY < preY + expectedMove) {
+        const bounce = new J.Vec3(0, -3.0, 0);
+        this._character.SetLinearVelocity(bounce);
+        J.destroy(bounce);
+      }
+    }
   }
 
   /**
